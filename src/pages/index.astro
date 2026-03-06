@@ -1,17 +1,322 @@
 ---
-
+import Base from '../layouts/Base.astro';
 ---
+<Base>
+  <!-- UNDER CONSTRUCTION -->
+  <div class="under-construction">
+    <span class="construction-icon">&#9881;</span>
+    <span class="construction-blink">&#9724;</span>
+    &nbsp; SITE UNDER CONSTRUCTION &nbsp;
+    <span class="construction-blink">&#9724;</span>
+    <span class="construction-icon">&#9881;</span>
+  </div>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <!-- ACCENT BAR -->
+  <div class="accent-bar">
+    <span class="accent-star as-l1">&#10022;</span>
+    <span class="accent-star as-l2">&#10022;</span>
+    <span class="accent-star as-l3">&#10022;</span>
+    <span class="accent-star as-l4">&#10022;</span>
+    <span class="accent-star as-l5">&#10022;</span>
+    <span class="accent-star as-l6">&#10022;</span>
+    <div class="accent-line"></div>
+    <div class="planet-accent">
+      <div class="orbit"><div class="planet"></div><div class="sun"></div></div>
+    </div>
+    <div class="accent-line"></div>
+    <span class="accent-star as-r1">&#10022;</span>
+    <span class="accent-star as-r2">&#10022;</span>
+    <span class="accent-star as-r3">&#10022;</span>
+    <span class="accent-star as-r4">&#10022;</span>
+    <span class="accent-star as-r5">&#10022;</span>
+    <span class="accent-star as-r6">&#10022;</span>
+  </div>
+
+  <!-- LOADING / ERROR -->
+  <div id="loading">
+    <div class="spinner"></div>
+    FETCHING TODAY'S TRANSMISSION...
+  </div>
+  <div id="error-msg" style="display:none"></div>
+
+  <!-- APOD CARD -->
+  <div id="apod-card" class="apod-card" style="display:none">
+    <div class="card-titlebar">
+      <div class="titlebar-dots">
+        <i class="dot-red"></i><i class="dot-gold"></i><i class="dot-green"></i>
+      </div>
+      <div class="card-titlebar-text">// ASTRONOMY PICTURE OF THE DAY //</div>
+    </div>
+    <div class="card-body">
+      <div class="apod-date" id="apod-date"></div>
+      <div class="apod-title" id="apod-title"></div>
+      <div id="apod-media-wrap"></div>
+      <div class="apod-explanation" id="apod-explanation"></div>
+      <div class="apod-copyright" id="apod-copyright"></div>
+    </div>
+  </div>
+</Base>
+
+<style>
+  /* UNDER CONSTRUCTION */
+  .under-construction {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: repeating-linear-gradient(
+      45deg, #1a0000, #1a0000 12px, #2a0800 12px, #2a0800 24px
+    );
+    border: 2px solid var(--red);
+    box-shadow: 0 0 12px rgba(255,68,68,0.3), inset 1px 1px 0 rgba(255,255,255,0.05);
+    padding: 10px 16px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .construction-icon {
+    font-size: 1.4rem;
+    animation: spin-slow 3s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin-slow {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .construction-blink { animation: blink 0.9s step-end infinite; }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
+
+  /* ACCENT BAR */
+  .accent-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    align-items: center;
+  }
+  .accent-star { font-size: 1rem; animation: twinkle 1.4s ease-in-out infinite; }
+  .as-l1 { color: #ff2020; animation-delay: 0.0s; }
+  .as-l2 { color: #ff8800; animation-delay: 0.2s; }
+  .as-l3 { color: #ffd84d; animation-delay: 0.4s; }
+  .as-l4 { color: #39ff14; animation-delay: 0.6s; }
+  .as-l5 { color: #00eaff; animation-delay: 0.8s; }
+  .as-l6 { color: #cc44ff; animation-delay: 1.0s; }
+  .as-r1 { color: #cc44ff; animation-delay: 0.0s; animation-name: twinkle-inv; }
+  .as-r2 { color: #00eaff; animation-delay: 0.2s; animation-name: twinkle-inv; }
+  .as-r3 { color: #39ff14; animation-delay: 0.4s; animation-name: twinkle-inv; }
+  .as-r4 { color: #ffd84d; animation-delay: 0.6s; animation-name: twinkle-inv; }
+  .as-r5 { color: #ff8800; animation-delay: 0.8s; animation-name: twinkle-inv; }
+  .as-r6 { color: #ff2020; animation-delay: 1.0s; animation-name: twinkle-inv; }
+  @keyframes twinkle {
+    0%,100% { opacity: 1;   transform: scale(1);   }
+    50%      { opacity: 0.2; transform: scale(0.6); }
+  }
+  @keyframes twinkle-inv {
+    0%,100% { opacity: 0.2; transform: scale(0.6); }
+    50%      { opacity: 1;   transform: scale(1);   }
+  }
+  .accent-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--panel-border), transparent);
+  }
+  .planet-accent {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 20px;
+    height: 60px;
+    position: relative;
+  }
+  .orbit {
+    width: 60px; height: 60px;
+    border: 1px dashed rgba(0,180,255,0.3);
+    border-radius: 50%;
+    position: relative;
+    animation: orbit-spin 6s linear infinite;
+  }
+  .planet {
+    position: absolute;
+    top: -5px; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 10px;
+    background: radial-gradient(circle at 35% 35%, #7af, #025);
+    border-radius: 50%;
+    box-shadow: 0 0 6px #0af;
+  }
+  .sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px; height: 18px;
+    background: radial-gradient(circle at 40% 40%, #ffe080, #e05000);
+    border-radius: 50%;
+    box-shadow: 0 0 14px rgba(255,160,40,0.7);
+  }
+  @keyframes orbit-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* LOADING */
+  #loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--cyan);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(0,200,255,0.2);
+    border-top-color: var(--cyan);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #error-msg {
+    color: var(--red);
+    font-size: 0.8rem;
+    padding: 20px;
+    border: 1px solid var(--red);
+    background: rgba(255,0,0,0.07);
+  }
+
+  /* APOD CARD */
+  .apod-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.09),
+      inset -1px -1px 0 rgba(0,0,0,0.6),
+      0 8px 40px rgba(0,0,0,0.7),
+      0 0 20px rgba(0,100,200,0.1);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .card-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #001848 0%, #00091f 100%);
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .titlebar-dots { display: flex; gap: 5px; }
+  .titlebar-dots i { display: block; width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red   { background: #ff5f57; }
+  .dot-gold  { background: #febc2e; }
+  .dot-green { background: #28c840; }
+  .card-titlebar-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+    flex: 1;
+    text-align: center;
+  }
+  .card-body { padding: 18px 20px; }
+  .apod-date {
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
+  .apod-title {
+    font-size: 1.3rem;
+    color: var(--gold);
+    text-shadow: 0 0 14px rgba(255,216,77,0.4);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .apod-media {
+    width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid var(--panel-border);
+    background: #000;
+  }
+  .apod-iframe-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    margin-bottom: 16px;
+    border: 1px solid var(--panel-border);
+  }
+  .apod-iframe-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .apod-explanation {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--white);
+    opacity: 0.88;
+  }
+  .apod-copyright {
+    margin-top: 10px;
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+</style>
+
+<script>
+  const API_BASE = '/api/apod';
+
+  async function fetchAPOD(date) {
+    const url = date ? `${API_BASE}?date=${date}` : API_BASE;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    return res.json();
+  }
+
+  async function loadTodayAPOD() {
+    try {
+      const data = await fetchAPOD();
+      renderAPOD(data);
+      
+
+	  
+    } catch (e) {
+      document.getElementById('loading').style.display = 'none';
+      const err = document.getElementById('error-msg');
+      err.style.display = 'block';
+      err.innerHTML = '>> <s>TRANSMISSION</s> TRANS🏳️‍⚧️ MISSION ERROR: failed to fetch (arf!)';
+    }
+  }
+
+  function renderAPOD(data) {
+    document.getElementById('loading').style.display = 'none';
+    const card = document.getElementById('apod-card');
+    card.style.display = 'block';
+    document.getElementById('apod-date').textContent = '// DATE: ' + data.date;
+    document.getElementById('apod-title').textContent = data.title;
+    document.getElementById('apod-explanation').textContent = data.explanation;
+    document.getElementById('apod-copyright').textContent =
+      data.copyright ? '// IMAGE CREDIT: ' + data.copyright.trim() : '';
+    const wrap = document.getElementById('apod-media-wrap');
+    wrap.innerHTML = '';
+    if (data.media_type === 'video') {
+      wrap.innerHTML = `<div class="apod-iframe-wrap"><iframe src="${data.url}" allowfullscreen></iframe></div>`;
+    } else {
+      const img = document.createElement('img');
+      img.className = 'apod-media';
+      img.src = data.hdurl || data.url;
+      img.alt = data.title;
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+    }
+  }
+
+  loadTodayAPOD();
+</script>

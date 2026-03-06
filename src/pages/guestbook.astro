@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Guestbook // Gaysex Solutions">
+
+  <div class="page-heading">>> Guestbook</div>
+
+  <div class="info-block">
+    <p style="color:var(--dim);font-size:0.75rem">Sign my guestbook! Entries are visible to all visitors.</p>
+    <br>
+    <div class="guestbook-form">
+      <input type="text" id="gb-name" placeholder="Your name / handle" maxlength="40" />
+      <input type="text" id="gb-planet" placeholder="Your planet of origin" maxlength="40" />
+      <textarea id="gb-msg" placeholder="Leave a message for the cosmos..."></textarea>
+      <button class="btn" id="gb-submit">&#9654; Sign It</button>
+      <div id="gb-status"></div>
+    </div>
+  </div>
+
+  <div id="gb-entries"></div>
+
+</Base>
+
+<style>
+  .guestbook-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+  }
+  .guestbook-form input,
+  .guestbook-form textarea {
+    background: #000814;
+    border: 1px solid var(--panel-border);
+    color: var(--white);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .guestbook-form input:focus,
+  .guestbook-form textarea:focus { border-color: var(--cyan); }
+  .guestbook-form textarea { height: 90px; resize: vertical; }
+  #gb-status {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+  .entry-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.06),
+      0 4px 20px rgba(0,0,0,0.5);
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .entry-meta {
+    font-size: 0.72rem;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+  .entry-meta b { color: var(--gold); }
+  .entry-meta span { color: var(--dim); margin-left: 10px; }
+  .entry-msg {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--white);
+  }
+</style>
+
+<script>
+  import { createClient } from '@supabase/supabase-js';
+
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  async function loadEntries() {
+    const container = document.getElementById('gb-entries');
+    const { data, error } = await supabase
+      .from('guestbook')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error || !data.length) {
+      container.innerHTML = '<div style="color:var(--dim);font-size:0.75rem;padding:10px">No entries yet. Be the first!</div>';
+      return;
+    }
+
+    container.innerHTML = data.map(e => `
+      <div class="entry-card">
+        <div class="entry-meta">
+          &#9733; <b>${esc(e.name)}</b> from <i>${esc(e.planet)}</i>
+          <span>${e.created_at.split('T')[0]}</span>
+        </div>
+        <div class="entry-msg">${esc(e.message)}</div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('gb-submit').addEventListener('click', async () => {
+    const name    = document.getElementById('gb-name').value.trim() || 'Anonymous';
+    const planet  = document.getElementById('gb-planet').value.trim() || 'Earth';
+    const message = document.getElementById('gb-msg').value.trim();
+    const status  = document.getElementById('gb-status');
+
+    if (!message) {
+      status.style.color = 'var(--red)';
+      status.textContent = '>> Please write a message first.';
+      return;
+    }
+
+    status.style.color = 'var(--dim)';
+    status.textContent = '>> Transmitting...';
+
+    const { error } = await supabase
+      .from('guestbook')
+      .insert([{ name, planet, message }]);
+
+   if (error) {
+      status.style.color = 'var(--red)';
+      status.textContent = '>> ' + error.message;
+      return;
+    }
+
+    status.style.color = 'var(--green)';
+    status.textContent = '>> Entry logged. Welcome to the cosmos!';
+    document.getElementById('gb-name').value = '';
+    document.getElementById('gb-planet').value = '';
+    document.getElementById('gb-msg').value = '';
+    loadEntries();
+  });
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  loadEntries();
+</script>

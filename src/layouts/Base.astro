@@ -1,0 +1,369 @@
+---
+const { title = "Gaysex Solutions // Christopher's Personal Website and Portfolio" } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <style>
+    :root {
+      --black:        #000008;
+      --deep:         #03001a;
+      --panel:        rgba(0, 5, 30, 0.82);
+      --panel-border: #1a3a6e;
+      --cyan:         #00eaff;
+      --gold:         #ffd84d;
+      --white:        #e8f0ff;
+      --dim:          #7a9cbf;
+      --red:          #ff4444;
+      --green:        #39ff14;
+      --nav-width:    220px;
+      --nav-top:      54px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--cyan); text-decoration: none; text-shadow: 0 0 8px rgba(0,234,255,0.5); }
+    a:hover { text-decoration: underline; color: var(--gold); text-shadow: 0 0 10px rgba(255,216,77,0.5); }
+    
+    a, a:link, a:visited { color: #00eaff !important; text-decoration: underline; font-weight: bold; }
+    a:hover { color: var(--gold) !important; text-decoration: underline; }
+	
+	a { color: #00eaff; text-decoration: underline; font-weight: bold; }
+    a:visited { color: #00eaff; }
+    a:hover { color: var(--gold); text-decoration: underline; }
+    :global(a), :global(a:visited) { color: #00eaff !important; }
+    :global(a:hover) { color: var(--gold) !important; }
+    
+	/* BACKGROUND */
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: var(--black);
+    }
+    #bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+        rgba(0,0,10,0.35) 0%,
+        rgba(0,0,10,0.72) 70%,
+        rgba(0,0,10,0.92) 100%);
+    }
+
+    /* TOP BAR */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-top);
+      z-index: 200;
+      background: rgba(0,2,18,0.93);
+      border-bottom: 2px solid var(--panel-border);
+      box-shadow: 0 2px 18px rgba(0,200,255,0.13);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 14px;
+    }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--cyan);
+      transition: all 0.3s;
+    }
+
+    #site-title {
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+      text-transform: uppercase;
+      flex: 1;
+    }
+    #site-title span { color: var(--gold); }
+
+    .live-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-dot 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* SIDE NAV */
+    #sidenav {
+      position: fixed;
+      top: var(--nav-top);
+      left: 0;
+      width: var(--nav-width);
+      bottom: 0;
+      z-index: 100;
+      background: var(--panel);
+      border-right: 2px solid var(--panel-border);
+      box-shadow:
+        inset -2px 0 0 rgba(255,255,255,0.07),
+        inset  2px 0 0 rgba(0,0,0,0.5),
+        4px 0 28px rgba(0,0,0,0.7),
+        4px 0 8px  rgba(0,180,255,0.08);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    .nav-header {
+      padding: 16px 14px 10px;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--dim);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--panel-border);
+    }
+
+    .nav-links { padding: 8px 0; flex: 1; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: rgba(0,200,255,0.1);
+      color: var(--cyan);
+      border-left-color: var(--cyan);
+      text-decoration: none;
+    }
+    .nav-link .icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .nav-footer {
+      padding: 12px 14px;
+      font-size: 0.6rem;
+      color: var(--dim);
+      border-top: 1px solid var(--panel-border);
+      line-height: 1.8;
+    }
+
+    .hit-counter { display: flex; gap: 3px; margin-top: 6px; }
+    .hit-digit {
+      background: var(--black);
+      color: var(--green);
+      border: 1px solid #0a3a0a;
+      padding: 1px 5px;
+      font-size: 0.75rem;
+      font-family: 'Courier New', monospace;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+    }
+
+    /* MAIN */
+    #main {
+      margin-left: var(--nav-width);
+      margin-top: var(--nav-top);
+      min-height: calc(100vh - var(--nav-top));
+      position: relative;
+      z-index: 10;
+      padding: 24px 28px 60px;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--panel-border);
+      border-left: 3px solid var(--cyan);
+      padding: 6px 0;
+      margin-bottom: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marquee-scroll 28s linear infinite;
+    }
+    .marquee-track span {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      padding: 0 40px;
+      text-transform: uppercase;
+    }
+    .marquee-track span b { color: var(--gold); }
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* PAGE SHARED STYLES */
+    .page-heading {
+      font-size: 1.1rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      text-shadow: 0 0 10px var(--cyan);
+    }
+    .info-block {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.06),
+        0 4px 20px rgba(0,0,0,0.5);
+      padding: 20px;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--white);
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+    .info-block p + p { margin-top: 12px; }
+
+    .links-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .links-list li::before { content: '>> '; color: var(--cyan); }
+    .links-list a { color: var(--gold); }
+
+    .btn {
+      background: linear-gradient(180deg, #001848, #000b2a);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      padding: 8px 20px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, box-shadow 0.2s;
+      align-self: flex-start;
+    }
+    .btn:hover {
+      background: rgba(0,200,255,0.15);
+      box-shadow: 0 0 12px rgba(0,200,255,0.3);
+    }
+
+    /* MOBILE */
+    @media (max-width: 700px) {
+      #hamburger { display: flex; }
+      #sidenav { transform: translateX(calc(-1 * var(--nav-width))); }
+      #sidenav.open { transform: translateX(0); }
+      #main { margin-left: 0; padding: 16px 14px 50px; }
+    }
+
+    #nav-overlay {
+      display: none;
+      position: fixed;
+      inset: var(--nav-top) 0 0 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    #nav-overlay.show { display: block; }
+  </style>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<div id="topbar">
+  <button id="hamburger" aria-label="Menu" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="site-title">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</div>
+  <div class="live-dot" title="Live feed active"></div>
+</div>
+
+<div id="nav-overlay" onclick="toggleNav()"></div>
+
+<nav id="sidenav">
+  <div class="nav-header">// Navigation</div>
+<div class="nav-links">
+    <a class:list={["nav-link", { active: currentPath === "/" }]} href="/">
+      <span class="icon">&#9632;</span> Home
+    </a>
+    <a class:list={["nav-link", { active: currentPath === "/about" }]} href="/about">
+      <span class="icon">&#9670;</span> About
+    </a>
+    <a class:list={["nav-link", { active: currentPath === "/blog" }]} href="/blog">
+      <span class="icon">&#9997;</span> Blog
+    </a>
+    <a class:list={["nav-link", { active: currentPath === "/newsletter" }]} href="/newsletter">
+      <span class="icon">&#9993;</span> Newsletter
+    </a>
+    <a class:list={["nav-link", { active: currentPath === "/links" }]} href="/links">
+      <span class="icon">&#9658;</span> Links
+    </a>
+    <a class:list={["nav-link", { active: currentPath === "/guestbook" }]} href="/guestbook">
+      <span class="icon">&#9993;</span> Guestbook
+    </a>
+  </div>
+  <div class="nav-footer">
+    // VISITORS<br>
+    <div class="hit-counter">
+      <span class="hit-digit">4</span>
+      <span class="hit-digit">2</span>
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">6</span>
+      <span class="hit-digit">9</span>
+    </div>
+    <br>
+    // EST. MMXXVI
+  </div>
+</nav>
+
+<main id="main">
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY MIND</b> &nbsp;&nbsp; &#9733; THE UNIVERSE AWAITS &#9733; &nbsp;&nbsp; <b>PLEASE HIRE ME!</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>CERTIFIED MASTER TUTOR</b> &nbsp;&nbsp; &#9733; OF CALCUL-ASS &#9733; &nbsp;&nbsp;</span>
+      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY MIND</b> &nbsp;&nbsp; &#9733; THE UNIVERSE AWAITS &#9733; &nbsp;&nbsp; <b>PLEASE HIRE ME!</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>CERTIFIED MASTER TUTOR</b> &nbsp;&nbsp; &#9733; OF CALCUL-ASS &#9733; &nbsp;&nbsp;</span>
+    </div>
+  </div>
+  <slot />
+</main>
+
+<script>
+  function toggleNav() {
+    document.getElementById('sidenav').classList.toggle('open');
+    document.getElementById('nav-overlay').classList.toggle('show');
+  }
+
+  // Set APOD background on pages that expose window.apodImageUrl
+  window.addEventListener('load', () => {
+    if (window.apodImageUrl) {
+      document.getElementById('bg').style.backgroundImage = `url('${window.apodImageUrl}')`;
+    }
+  });
+</script>
+
+</body>
+</html>
