@@ -296,14 +296,14 @@ const currentPath = Astro.url.pathname;
 <div id="bg"></div>
 
 <div id="topbar">
-  <button id="hamburger" aria-label="Menu" onclick="toggleNav()">
+  <button id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
   <div id="site-title">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</div>
   <div class="live-dot" title="Live feed active"></div>
 </div>
 
-<div id="nav-overlay" onclick="toggleNav()"></div>
+<div id="nav-overlay"></div>
 
 <nav id="sidenav">
   <div class="nav-header">// Navigation</div>
@@ -352,11 +352,14 @@ const currentPath = Astro.url.pathname;
 </main>
 
 <script>
-  function toggleNav() {
+function toggleNav() {
     document.getElementById('sidenav').classList.toggle('open');
     document.getElementById('nav-overlay').classList.toggle('show');
   }
 
+  document.getElementById('hamburger').addEventListener('click', toggleNav);
+  document.getElementById('nav-overlay').addEventListener('click', toggleNav);
+  
   // Set APOD background on pages that expose window.apodImageUrl
   window.addEventListener('load', () => {
     if (window.apodImageUrl) {
