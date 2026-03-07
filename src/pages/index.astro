@@ -55,6 +55,18 @@ import Base from '../layouts/Base.astro';
       <div class="apod-copyright" id="apod-copyright"></div>
     </div>
   </div>
+  <div class="counter-wrap">
+    <div class="counter-label">// YOU ARE VISITOR</div>
+    <div class="hit-counter" id="site-counter">
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">0</span>
+      <span class="hit-digit">0</span>
+    </div>
+  </div>
+  
 </Base>
 
 <style>
@@ -268,6 +280,19 @@ import Base from '../layouts/Base.astro';
     color: var(--dim);
     letter-spacing: 0.1em;
   }
+  
+  .counter-wrap {
+    text-align: center;
+    padding: 20px;
+    margin-top: 10px;
+    border-top: 1px solid var(--panel-border);
+  }
+  .counter-label {
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.25em;
+    margin-bottom: 8px;
+  }
 </style>
 
 <script>
@@ -319,4 +344,41 @@ import Base from '../layouts/Base.astro';
   }
 
   loadTodayAPOD();
+  
+  // ---- SITE COUNTER ----
+  async function loadAndIncrementCounter() {
+    const res = await fetch(
+      `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/counter?select=count`,
+      {
+        headers: {
+          apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+        }
+      }
+    );
+    const data = await res.json();
+    const current = data[0].count;
+
+    // Increment
+    await fetch(
+      `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/counter`,
+      {
+        method: 'PATCH',
+        headers: {
+          apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({ count: current + 1 })
+      }
+    );
+
+    // Display
+    const digits = String(current + 1).padStart(6, '0').split('');
+    const container = document.getElementById('site-counter');
+    container.innerHTML = digits.map(d => `<span class="hit-digit">${d}</span>`).join('');
+  }
+
+  loadAndIncrementCounter();
 </script>
