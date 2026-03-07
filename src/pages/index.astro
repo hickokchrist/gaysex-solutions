@@ -361,7 +361,7 @@ import Base from '../layouts/Base.astro';
 
     // Increment
     await fetch(
-      `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/counter`,
+       `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/Counter?id=eq.1`,
       {
         method: 'PATCH',
         headers: {
