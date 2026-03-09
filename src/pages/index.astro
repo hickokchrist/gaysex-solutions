@@ -41,12 +41,12 @@ import Base from '../layouts/Base.astro';
 
   <!-- APOD CARD -->
   <div id="apod-card" class="apod-card" style="display:none">
-    <div class="card-titlebar">
-      <div class="titlebar-dots">
-        <i class="dot-red"></i><i class="dot-gold"></i><i class="dot-green"></i>
-      </div>
+   
+	<div class="card-titlebar">
+      <div class="titlebar-icon">🌠</div>
       <div class="card-titlebar-text">// ASTRONOMY PICTURE OF THE DAY //</div>
     </div>
+	
     <div class="card-body">
       <div class="apod-date" id="apod-date"></div>
       <div class="apod-title" id="apod-title"></div>
@@ -218,11 +218,8 @@ import Base from '../layouts/Base.astro';
     padding: 7px 12px;
     border-bottom: 1px solid var(--panel-border);
   }
-  .titlebar-dots { display: flex; gap: 5px; }
-  .titlebar-dots i { display: block; width: 10px; height: 10px; border-radius: 50%; }
-  .dot-red   { background: #ff5f57; }
-  .dot-gold  { background: #febc2e; }
-  .dot-green { background: #28c840; }
+  
+.titlebar-icon { font-size: 1rem; }
   .card-titlebar-text {
     font-size: 0.68rem;
     letter-spacing: 0.2em;
