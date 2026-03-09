@@ -105,4 +105,13 @@ const { Content } = await post.render();
     border-top: 1px solid var(--panel-border);
     margin: 24px 0;
   }
+  
+  .post-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 16px auto;
+    border: 1px solid var(--panel-border);
+  }
+  
 </style>
