@@ -336,7 +336,7 @@ import Base from '../layouts/Base.astro';
     } else {
       const img = document.createElement('img');
       img.className = 'apod-media';
-      img.src = data.hdurl || data.url;
+      img.src = data.url || data.hdurl;
       img.alt = data.title;
       img.loading = 'lazy';
       wrap.appendChild(img);
