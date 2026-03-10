@@ -46,27 +46,28 @@ import Base from '../layouts/Base.astro';
     font-size: 0.75rem;
     letter-spacing: 0.1em;
   }
-  .entry-card {
+:global(.entry-card) {
     background: var(--panel);
     border: 1px solid var(--panel-border);
     box-shadow:
       inset 1px 1px 0 rgba(255,255,255,0.06),
       0 4px 20px rgba(0,0,0,0.5);
-    padding: 14px 18px;
+    padding: 7px 9px;
     margin-bottom: 10px;
   }
-  .entry-meta {
+  :global(.entry-meta) {
     font-size: 0.72rem;
     color: var(--cyan);
     margin-bottom: 6px;
   }
-  .entry-meta b { color: var(--gold); }
-  .entry-meta span { color: var(--dim); margin-left: 10px; }
-  .entry-msg {
+  :global(.entry-meta b) { color: var(--gold); }
+  :global(.entry-meta span) { color: var(--dim); margin-left: 10px; }
+  :global(.entry-msg) {
     font-size: 0.82rem;
     line-height: 1.7;
     color: var(--white);
   }
+
 </style>
 
 <script>

@@ -30,8 +30,9 @@ const currentPath = Astro.url.pathname;
       min-height: 100%;
       background: var(--black);
       color: var(--white);
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
       overflow-x: hidden;
+	  font-weight: 500;
     }
 
     a { color: var(--cyan); text-decoration: none; text-shadow: 0 0 8px rgba(0,234,255,0.5); }
@@ -351,7 +352,32 @@ const currentPath = Astro.url.pathname;
 .crumb-current {
   color: var(--white);
 }
-
+#scroll-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 500;
+  background: var(--panel);
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 6px 12px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, box-shadow 0.2s;
+}
+#scroll-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#scroll-top:hover {
+  box-shadow: 0 0 12px rgba(0,234,255,0.3);
+  color: var(--gold);
+  border-color: var(--gold);
+}
 </style>
 </head>
 <body>
@@ -444,6 +470,20 @@ function toggleNav() {
     }
   });
 </script>
+<button id="scroll-top" aria-label="Scroll to top">▲ TOP</button>
 
+<script>
+  const btn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 1200) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
 </body>
 </html>
