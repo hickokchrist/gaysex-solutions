@@ -94,14 +94,18 @@ const currentPath = Astro.url.pathname;
       transition: all 0.3s;
     }
 
-    #site-title {
-      font-size: 1.05rem;
-      letter-spacing: 0.18em;
-      color: var(--cyan);
-      text-shadow: 0 0 12px var(--cyan);
-      text-transform: uppercase;
-      flex: 1;
-    }
+#site-title {
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+  text-shadow: 0 0 12px var(--cyan);
+  text-transform: uppercase;
+  flex: 1;
+  text-decoration: none !important;
+ 
+
+  min-width: 0;
+}
     #site-title span { color: var(--gold); }
 
     .live-dot {
@@ -279,6 +283,10 @@ const currentPath = Astro.url.pathname;
       #sidenav { transform: translateX(calc(-1 * var(--nav-width))); }
       #sidenav.open { transform: translateX(0); }
       #main { margin-left: 0; padding: 16px 14px 50px; }
+	  #site-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
     }
 
     #nav-overlay {
@@ -312,6 +320,14 @@ const currentPath = Astro.url.pathname;
 
     scrollbar-color: #1a3a6e #000008;
   }
+  .post-nav {
+  margin-top: 24px;
+  padding: 12px 0;
+  border-top: 1px solid #1a3a6e;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+}
+
 </style>
 </head>
 <body>
@@ -322,7 +338,7 @@ const currentPath = Astro.url.pathname;
   <button id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-  <div id="site-title">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</div>
+  <a id="site-title" href="/">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</a>
   <div class="live-dot" title="Live feed active"></div>
 </div>
 

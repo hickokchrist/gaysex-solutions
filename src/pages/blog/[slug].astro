@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 ---
+
 <Base title={`${post.data.title} // Gaysex Solutions`}>
 
   <div class="post-header">
@@ -30,7 +31,9 @@ const { Content } = await post.render();
   <div class="post-body">
     <Content />
   </div>
-
+<div class="post-nav">
+  <a href="/blog">◄ Back to Blog</a>
+</div>
 </Base>
 
 <style>
