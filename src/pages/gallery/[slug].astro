@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const albums = await getCollection('gallery');
   return albums.map(album => ({
-    params: { slug: album.id },
+    params: { slug: album.slug },
     props: { album },
   }));
 }

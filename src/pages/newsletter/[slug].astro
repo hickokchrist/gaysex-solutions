@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const issues = await getCollection('newsletter');
   return issues.map(issue => ({
-    params: { slug: issue.id },
+    params: { slug: issue.slug },
     props: { issue },
   }));
 }
