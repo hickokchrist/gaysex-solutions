@@ -11,7 +11,7 @@ import Base from '../layouts/Base.astro';
     <div class="guestbook-form">
       <input type="text" id="gb-name" placeholder="Your name / handle" maxlength="40" />
       <input type="text" id="gb-planet" placeholder="Your planet of origin" maxlength="40" />
-      <textarea id="gb-msg" placeholder="Leave a message for the cosmos..."></textarea>
+      <textarea id="gb-msg" placeholder="Leave a message for the cosmos..." maxlength="500"></textarea>
       <button class="btn" id="gb-submit">&#9654; Sign It</button>
       <div id="gb-status"></div>
     </div>
@@ -54,6 +54,7 @@ import Base from '../layouts/Base.astro';
       0 4px 20px rgba(0,0,0,0.5);
     padding: 7px 9px;
     margin-bottom: 10px;
+	max-width:500px;
   }
   :global(.entry-meta) {
     font-size: 0.72rem;
@@ -67,7 +68,38 @@ import Base from '../layouts/Base.astro';
     line-height: 1.7;
     color: var(--white);
   }
-
+:global(.pagination) {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  :global(.page-btn) {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--cyan);
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  :global(.page-btn:hover) {
+    border-color: var(--cyan);
+    color: var(--gold);
+  }
+  :global(.page-btn.active) {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  :global(.page-ellipsis) {
+    color: var(--dim);
+    font-size: 0.75rem;
+    padding: 4px 4px;
+    font-family: 'Courier New', monospace;
+  }
 </style>
 
 <script>
@@ -78,17 +110,30 @@ import Base from '../layouts/Base.astro';
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY
   );
 
-  async function loadEntries() {
-    const container = document.getElementById('gb-entries');
-    const { data, error } = await supabase
+  const PER_PAGE = 10;
+  let currentPage = 1;
+  let totalCount = 0;
+
+  async function loadEntries(page = 1) {
+    currentPage = page;
+    const from = (page - 1) * PER_PAGE;
+    const to = from + PER_PAGE - 1;
+
+    const { data, error, count } = await supabase
       .from('guestbook')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
+    const container = document.getElementById('gb-entries');
 
     if (error || !data.length) {
       container.innerHTML = '<div style="color:var(--dim);font-size:0.75rem;padding:10px">No entries yet. Be the first!</div>';
       return;
     }
+
+    totalCount = count;
+    const totalPages = Math.ceil(totalCount / PER_PAGE);
 
     container.innerHTML = data.map(e => `
       <div class="entry-card">
@@ -98,8 +143,50 @@ import Base from '../layouts/Base.astro';
         </div>
         <div class="entry-msg">${esc(e.message)}</div>
       </div>
-    `).join('');
+    `).join('') + renderPagination(currentPage, totalPages);
   }
+
+  function renderPagination(current, total) {
+    if (total <= 1) return '';
+
+    const MAX_VISIBLE = 5;
+    let pages = [];
+
+    // Always show page 1
+    pages.push(1);
+
+    // Calculate middle window
+    let start = Math.max(2, current - 1);
+    let end = Math.min(total - 1, current + 1);
+
+    // Pad window to show up to MAX_VISIBLE pages
+    while (end - start < MAX_VISIBLE - 3 && (start > 2 || end < total - 1)) {
+      if (start > 2) start--;
+      if (end < total - 1) end++;
+    }
+
+    if (start > 2) pages.push('...');
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < total - 1) pages.push('...');
+
+    // Always show last page
+    if (total > 1) pages.push(total);
+
+    const buttons = pages.map(p => {
+      if (p === '...') return `<span class="page-ellipsis">...</span>`;
+      return `<button class="page-btn${p === current ? ' active' : ''}" data-page="${p}">${p}</button>`;
+    }).join('');
+
+    return `<div class="pagination">${buttons}</div>`;
+  }
+
+  document.getElementById('gb-entries').addEventListener('click', (e) => {
+    if (e.target.matches('.page-btn')) {
+      const page = parseInt(e.target.dataset.page);
+      loadEntries(page);
+      document.getElementById('gb-entries').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
   document.getElementById('gb-submit').addEventListener('click', async () => {
     const name    = document.getElementById('gb-name').value.trim() || 'Anonymous';
@@ -120,7 +207,7 @@ import Base from '../layouts/Base.astro';
       .from('guestbook')
       .insert([{ name, planet, message }]);
 
-   if (error) {
+    if (error) {
       status.style.color = 'var(--red)';
       status.textContent = '>> ' + error.message;
       return;
@@ -131,7 +218,7 @@ import Base from '../layouts/Base.astro';
     document.getElementById('gb-name').value = '';
     document.getElementById('gb-planet').value = '';
     document.getElementById('gb-msg').value = '';
-    loadEntries();
+    loadEntries(1);
   });
 
   function esc(s) {
@@ -142,5 +229,5 @@ import Base from '../layouts/Base.astro';
       .replace(/"/g,'&quot;');
   }
 
-  loadEntries();
+  loadEntries(1);
 </script>
