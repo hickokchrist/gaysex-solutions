@@ -3,27 +3,27 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
+  const albums = await getCollection('gallery');
+  return albums.map(album => ({
+    params: { slug: album.slug },
+    props: { album },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { album } = Astro.props;
+const { Content } = await album.render();
 ---
-<Base title={`${post.data.title} // Gaysex Solutions`}>
+<Base title={`${album.data.title} // Gaysex Solutions`}>
 
   <div class="post-header">
-    <div class="post-date">{post.data.date.toISOString().split('T')[0]}</div>
-    <h1 class="post-title">{post.data.title}</h1>
-    <div class="post-excerpt">{post.data.excerpt}</div>
+    <div class="post-date">{album.data.date.toISOString().split('T')[0]}</div>
+    <h1 class="post-title">{album.data.title}</h1>
+    <div class="post-excerpt">{album.data.excerpt}</div>
   </div>
 
-  {post.data.thumbnail && (
+  {album.data.thumbnail && (
     <div class="post-hero">
-      <img src={post.data.thumbnail} alt={post.data.title} />
+      <img src={album.data.thumbnail} alt={album.data.title} />
     </div>
   )}
 
@@ -105,7 +105,6 @@ const { Content } = await post.render();
     border-top: 1px solid var(--panel-border);
     margin: 24px 0;
   }
-  
   .post-body :global(img) {
     max-width: 100%;
     height: auto;
@@ -113,8 +112,51 @@ const { Content } = await post.render();
     margin: 16px auto;
     border: 1px solid var(--panel-border);
   }
-  .post-body :global(.img-item p) {
+  .post-body :global(.img-grid) {
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    gap: 10px;
+    margin: 16px 0;
+	max-width: 500px;
+  }
+  .post-body :global(.img-grid img) {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    margin: 0;
+  }
+  .post-body :global(.img-pair) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .post-body :global(.img-pair img) {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+  .post-body :global(img + em) {
+    display: block;
     text-align: center;
-    margin-bottom: 0;
+    font-size: 0.72rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-top: 0px;
+    margin-bottom: 14px;
+  }
+  .post-body :global(.img-grid em) {
+    display: block;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+@media (max-width: 900px) {
+    .post-body :global(.img-grid) {
+      grid-template-columns: 1fr;
+      max-width: 200px;
+    }
   }
 </style>

@@ -27,7 +27,7 @@ const currentPath = Astro.url.pathname;
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      height: 100%;
+      min-height: 100%;
       background: var(--black);
       color: var(--white);
       font-family: 'Courier New', Courier, monospace;
@@ -289,7 +289,30 @@ const currentPath = Astro.url.pathname;
       z-index: 99;
     }
     #nav-overlay.show { display: block; }
+	
+#main {
+    overflow-y: auto;
+  }
+ 
   </style>
+  <style is:global>
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000008;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1a3a6e;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00eaff;
+  }
+  * {
+
+    scrollbar-color: #1a3a6e #000008;
+  }
+</style>
 </head>
 <body>
 
@@ -314,17 +337,29 @@ const currentPath = Astro.url.pathname;
     <a class:list={["nav-link", { active: currentPath === "/about" }]} href="/about">
       <span class="icon">&#9670;</span> About
     </a>
+	<a class:list={["nav-link", { active: currentPath === "/solution" }]} href="/solution">
+      <span class="icon">✝️</span> The-Solution
+    </a>
+	<a class:list={["nav-link", { active: currentPath === "/sonic-stew" }]} href="/sonic-stew">
+      <span class="icon">&#128251;</span> Sonic-Stew
+    </a>
     <a class:list={["nav-link", { active: currentPath === "/blog" }]} href="/blog">
       <span class="icon">&#9997;</span> Blog
     </a>
     <a class:list={["nav-link", { active: currentPath === "/newsletter" }]} href="/newsletter">
-      <span class="icon">&#9993;</span> Newsletter
+      <span class="icon">&#127760;</span> Newsletter
+    </a>
+	    <a class:list={["nav-link", { active: currentPath === "/gallery" }]} href="/gallery">
+      <span class="icon">&#128247;</span> Gallery
     </a>
     <a class:list={["nav-link", { active: currentPath === "/links" }]} href="/links">
       <span class="icon">&#9658;</span> Links
     </a>
     <a class:list={["nav-link", { active: currentPath === "/guestbook" }]} href="/guestbook">
-      <span class="icon">&#9993;</span> Guestbook
+      <span class="icon">&#9998;</span> Guestbook
+    </a>
+    <a href="mailto:christopher@gaysex.solutions" class="nav-link">
+      <span class="icon">&#9993;</span> Contact
     </a>
   </div>
   <div class="nav-footer">
