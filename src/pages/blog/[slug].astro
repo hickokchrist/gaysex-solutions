@@ -3,17 +3,22 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
+  const posts = (await getCollection('blog')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  return posts.map((post, index) => ({
     params: { slug: post.slug },
-    props: { post },
+    props: { 
+      post,
+      prev: posts[index + 1] ?? null,
+      next: posts[index - 1] ?? null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { Content } = await post.render();
 ---
-
 <Base title={`${post.data.title} // Gaysex Solutions`}>
 
 <nav class="breadcrumb">
@@ -38,9 +43,21 @@ const { Content } = await post.render();
 
   <div class="post-body">
     <Content />
-  </div>
 <div class="post-nav">
-  <a href="/blog">◄ Back to Blog</a>
+  <div class="post-nav-inner">
+    {prev && (
+      <a href={`/blog/${prev.slug}`} class="post-nav-prev">
+        ◄ {prev.data.title}
+      </a>
+    )}
+    {!prev && <span></span>}
+    <a href="/blog" class="post-nav-up">▲ Back to Blog</a>
+    {next && (
+      <a href={`/blog/${next.slug}`} class="post-nav-next">
+        {next.data.title} ►
+      </a>
+    )}
+  </div>
 </div>
 </Base>
 
@@ -127,5 +144,32 @@ const { Content } = await post.render();
   .post-body :global(.img-item p) {
     text-align: center;
     margin-bottom: 0;
+  }
+  .post-nav {
+    margin-top: 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--panel-border);
+  }
+  .post-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+  .post-nav-prev, .post-nav-next {
+    max-width: 25%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .post-nav-next {
+    text-align: right;
+  }
+  .post-nav-up {
+    color: var(--dim) !important;
+    font-size: 0.7rem;
+    flex-shrink: 0;
   }
 </style>

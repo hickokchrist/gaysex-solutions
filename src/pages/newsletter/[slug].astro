@@ -3,14 +3,20 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const issues = await getCollection('newsletter');
-  return issues.map(issue => ({
+  const issues = (await getCollection('newsletter')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  return issues.map((issue, index) => ({
     params: { slug: issue.slug },
-    props: { issue },
+    props: { 
+      issue,
+      prev: issues[index + 1] ?? null,
+      next: issues[index - 1] ?? null,
+    },
   }));
 }
 
-const { issue } = Astro.props;
+const { issue, prev, next } = Astro.props;
 const { Content } = await issue.render();
 ---
 <Base title={`${issue.data.title} // Gaysex Solutions`}>
@@ -39,7 +45,20 @@ const { Content } = await issue.render();
     <Content />
   </div>
 <div class="post-nav">
-  <a href="/newsletter">◄ Back to Newsletters</a>
+  <div class="post-nav-inner">
+    {prev && (
+      <a href={`/newsletter/${prev.slug}`} class="post-nav-prev">
+        ◄ ...{prev.data.title.slice(-20)}
+      </a>
+    )}
+    {!prev && <span></span>}
+    <a href="/newsletter" class="post-nav-up">▲ Back to Newsletters</a>
+    {next && (
+      <a href={`/newsletter/${next.slug}`} class="post-nav-next">
+        ...{next.data.title.slice(-35)} ►
+      </a>
+    )}
+  </div>
 </div>
 </Base>
 
@@ -180,5 +199,33 @@ const { Content } = await issue.render();
     padding: 12px 16px;
     margin: 16px 0;
     color: var(--white);
+  }
+  .issue-nav {
+    margin-top: 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--panel-border);
+  }
+  .issue-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+  .issue-nav-prev, .issue-nav-next {
+    max-width: 25%;
+	min-width:0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .issue-nav-next {
+    text-align: right;
+  }
+  .issue-nav-up {
+    color: var(--dim) !important;
+    font-size: 0.7rem;
+    flex-shrink: 0;
   }
 </style>

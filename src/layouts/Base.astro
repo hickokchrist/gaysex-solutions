@@ -383,13 +383,13 @@ const currentPath = Astro.url.pathname;
 	<a class:list={["nav-link", { active: currentPath === "/sonic-stew" }]} href="/sonic-stew">
       <span class="icon">&#128251;</span> Sonic-Stew
     </a>
-    <a class:list={["nav-link", { active: currentPath === "/blog" }]} href="/blog">
+ <a class:list={["nav-link", { active: currentPath.startsWith("/blog") }]} href="/blog">
       <span class="icon">&#9997;</span> Blog
     </a>
-    <a class:list={["nav-link", { active: currentPath === "/newsletter" }]} href="/newsletter">
+    <a class:list={["nav-link", { active: currentPath.startsWith("/newsletter") }]} href="/newsletter">
       <span class="icon">&#127760;</span> Newsletter
     </a>
-	    <a class:list={["nav-link", { active: currentPath === "/gallery" }]} href="/gallery">
+	<a class:list={["nav-link", { active: currentPath.startsWith("/gallery") }]} href="/gallery">
       <span class="icon">&#128247;</span> Gallery
     </a>
     <a class:list={["nav-link", { active: currentPath === "/links" }]} href="/links">
