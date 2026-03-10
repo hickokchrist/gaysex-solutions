@@ -328,6 +328,30 @@ const currentPath = Astro.url.pathname;
   letter-spacing: 0.1em;
 }
 
+.breadcrumb {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--dim);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.breadcrumb a {
+  color: var(--cyan) !important;
+  text-decoration: none !important;
+}
+.breadcrumb a:hover {
+  color: var(--gold) !important;
+}
+.breadcrumb span {
+  color: var(--dim);
+}
+.crumb-current {
+  color: var(--white);
+}
+
 </style>
 </head>
 <body>

@@ -15,6 +15,14 @@ const { Content } = await issue.render();
 ---
 <Base title={`${issue.data.title} // Gaysex Solutions`}>
 
+<nav class="breadcrumb">
+  <a href="/">Home</a>
+  <span>›</span>
+  <a href="/newsletter">Newsletters</a>
+  <span>›</span>
+  <span class="crumb-current">{issue.data.title}</span>
+</nav>
+
   <div class="post-header">
     <div class="post-date">{issue.data.date.toISOString().split('T')[0]}</div>
     <h1 class="post-title">{issue.data.title}</h1>
