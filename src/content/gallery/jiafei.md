@@ -13,11 +13,22 @@ In penance for all the water boiled, the power bills incurred in rural communiti
 </p>
 <div class="img-grid">
 
+<div>
+
 ![Collar](/images/jiafei1.webp)
 *horrifying*
+
+</div>
+<div>
+
 ![](/images/jiafei2.webp)
 *getting there*
+
+</div>
+<div>
+
 ![](/images/jiafei3.webp)
 *We're so proud of our queen*
 
+</div>
 </div>
