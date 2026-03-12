@@ -35,7 +35,7 @@ import Base from '../layouts/Base.astro';
   <!-- LOADING / ERROR -->
   <div id="loading">
     <div class="spinner"></div>
-    FETCHING TODAY'S TRANSMISSION...
+    CACHING TODAY'S TRANSMISSION...
   </div>
   <div id="error-msg" style="display:none"></div>
 
@@ -293,7 +293,9 @@ import Base from '../layouts/Base.astro';
 </style>
 
 <script>
-  const API_BASE = '/api/apod';
+const API_BASE = '/api/apod';
+  const CACHE_KEY = 'apod_cache';
+  const CACHE_TTL = 24 * 60 * 60 * 1000;
 
   async function fetchAPOD(date) {
     const url = date ? `${API_BASE}?date=${date}` : API_BASE;
@@ -304,9 +306,23 @@ import Base from '../layouts/Base.astro';
 
   async function loadTodayAPOD() {
     try {
-      const data = await fetchAPOD();
+      let data;
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { timestamp, payload } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL) {
+          data = payload;
+        }
+      }
+      if (!data) {
+        data = await fetchAPOD();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          payload: data
+        }));
+      }
       renderAPOD(data);
-      
+
 
 	  
     } catch (e) {
