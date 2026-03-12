@@ -13,8 +13,8 @@ export async function getStaticPaths() {
 const { album } = Astro.props;
 const { Content } = await album.render();
 ---
-<Base title={`${album.data.title} // Gaysex Solutions`}  description={post.data.excerpt}
-  image={post.data.thumbnail}>
+<Base title={`${album.data.title} // Gaysex Solutions`}  description={album.data.excerpt}
+  image={album.data.thumbnail}>
 
 <nav class="breadcrumb">
   <a href="/">Home</a>
