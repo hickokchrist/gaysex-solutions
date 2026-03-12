@@ -1,5 +1,8 @@
 ---
-const { title = "Gaysex Solutions // Christopher's Personal Website and Portfolio" } = Astro.props;
+const { 
+  title = "Gaysex Solutions",
+  description = "Christopher's personal website and portfolio."
+} = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 <!DOCTYPE html>
@@ -8,6 +11,7 @@ const currentPath = Astro.url.pathname;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <meta name="description" content={description} />
   <style>
     :root {
       --black:        #000008;
