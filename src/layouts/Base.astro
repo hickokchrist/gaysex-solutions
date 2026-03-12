@@ -1,7 +1,8 @@
 ---
 const { 
   title = "Gaysex Solutions",
-  description = "Christopher's personal website and portfolio."
+  description = "Christopher's personal website and portfolio.",
+  image = "/images/og-default.webp"
 } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
@@ -12,6 +13,12 @@ const currentPath = Astro.url.pathname;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`https://gaysex.solutions${image}`} />
+  <meta property="og:url" content={`https://gaysex.solutions${Astro.url.pathname}`} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <style>
     :root {
       --black:        #000008;

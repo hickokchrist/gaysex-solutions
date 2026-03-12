@@ -19,7 +19,8 @@ export async function getStaticPaths() {
 const { post, prev, next } = Astro.props;
 const { Content } = await post.render();
 ---
-<Base title={`${post.data.title} // Gaysex Solutions`}>
+<Base title={`${post.data.title} // Gaysex Solutions`}  description={post.data.excerpt}
+  image={post.data.thumbnail}>
 
 <nav class="breadcrumb">
   <a href="/">Home</a>

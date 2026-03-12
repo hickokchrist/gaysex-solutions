@@ -1,6 +1,6 @@
 ---
 title: "Jiafei Sketch"
-date: 2026-03-09
+date: 2026-02-19
 excerpt: "I sketched my viral AI tiktok"
 thumbnail: "/images/jiafei4.webp"
 ---
