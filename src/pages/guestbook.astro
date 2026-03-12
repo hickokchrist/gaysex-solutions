@@ -207,17 +207,7 @@ if (!token) {
   return;
 }
 
-const verify = await fetch('/api/verify-recaptcha', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ token })
-});
-const { success } = await verify.json();
-if (!success) {
-  status.style.color = 'var(--red)';
-  status.textContent = '>> reCAPTCHA verification failed. Are you a bot?';
-  return;
-}
+
 
 
     status.style.color = 'var(--dim)';
