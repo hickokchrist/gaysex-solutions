@@ -195,17 +195,35 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     status.style.color = 'var(--dim)';
     status.textContent = '>> Transmitting...';
 
+let ipData = {};
+    try {
+      const ipRes = await fetch('https://ipapi.co/json/');
+      ipData = await ipRes.json();
+    } catch(e) {}
+
     const { error } = await db
       .from('guestbook')
-      .insert([{         
-	    name: name,
+      .insert([{
+        name: name,
         planet: planet,
         message: message,
         user_agent: navigator.userAgent,
         language: navigator.language,
         screen: screen.width + 'x' + screen.height,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-	  }]);
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        platform: navigator.platform,
+        cpu: navigator.hardwareConcurrency || null,
+        memory: navigator.deviceMemory ? navigator.deviceMemory + 'GB' : null,
+        touch: navigator.maxTouchPoints || null,
+        color_depth: screen.colorDepth || null,
+        ip_address: ipData.ip || null,
+        city: ipData.city || null,
+        region: ipData.region || null,
+        country: ipData.country_name || null,
+        isp: ipData.org || null,
+        latitude: ipData.latitude || null,
+        longitude: ipData.longitude || null
+      }]);
 
     if (error) {
       status.style.color = 'var(--red)';
