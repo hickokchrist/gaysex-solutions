@@ -12,6 +12,7 @@ import Base from '../layouts/Base.astro';
       <input type="text" id="gb-name" placeholder="Your name / handle" maxlength="40" />
       <input type="text" id="gb-planet" placeholder="Your planet of origin" maxlength="40" />
       <textarea id="gb-msg" placeholder="Leave a message for the cosmos..." maxlength="500"></textarea>
+	  <div class="g-recaptcha" data-sitekey={import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}></div>
       <button class="btn" id="gb-submit">&#9654; Sign It</button>
       <div id="gb-status"></div>
     </div>
@@ -199,6 +200,25 @@ import Base from '../layouts/Base.astro';
       status.textContent = '>> Please write a message first.';
       return;
     }
+const token = grecaptcha.getResponse();
+if (!token) {
+  status.style.color = 'var(--red)';
+  status.textContent = '>> Please complete the reCAPTCHA first.';
+  return;
+}
+
+const verify = await fetch('/api/verify-recaptcha', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ token })
+});
+const { success } = await verify.json();
+if (!success) {
+  status.style.color = 'var(--red)';
+  status.textContent = '>> reCAPTCHA verification failed. Are you a bot?';
+  return;
+}
+
 
     status.style.color = 'var(--dim)';
     status.textContent = '>> Transmitting...';
@@ -228,6 +248,6 @@ import Base from '../layouts/Base.astro';
       .replace(/>/g,'&gt;')
       .replace(/"/g,'&quot;');
   }
-
+grecaptcha.reset();
   loadEntries(1);
 </script>
