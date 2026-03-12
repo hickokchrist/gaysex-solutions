@@ -13,23 +13,49 @@ Black dots of icing formed the eyes. I curled the little limbs into limp shapes,
 <p>
 They were, as fondant tends to be, absolutely <i>disgusting</i>. However, the vision? It was 100% executed.
 </p>
-<p>
-And please don't come for my awful, Lakers-ass 'halloween' decorating. Obviously all my effort went into the food.. even though I <strong>had</strong> a boyfriend at the time. Where was Paolo? Talk about foreshadowing...
-</p>
+
 <div class="img-grid">
+
+<div>
 
 ![](/images/shot-tray.webp)
 *Sixty-four bundles of joy*
+
+</div>
+<div>
+
 ![](/images/shot-platter.webp)
 *These were extremely difficult to serve*
+
+</div>
+<div>
+
 ![](/images/shot-flourish.webp)
 *Posing with my work*
+
+</div>
+<div>
+
 ![](/images/shot-flourish2.webp)
 *Damn I had so much hair*
+
+</div>
+<div>
+
 ![](/images/shot-babyweb.webp)
-*There was so much extra fondant that I added fetuses as decor*
+*There was extra fondant to add fetus decor*
+
+</div>
+<div>
+
 ![](/images/shot-battlefield.webp)
 *The aftermath looked insane*
+
+</div>
+<div>
+
 ![](/images/shot-battlefield2.webp)
 *Fallen soldiers o7*
+
+</div>
 </div>

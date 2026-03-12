@@ -173,4 +173,21 @@ const { Content } = await post.render();
     font-size: 0.7rem;
     flex-shrink: 0;
   }
+  .post-body :global(img + em) {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-top: 0px;
+    margin-bottom: 14px;
+  }
+  .post-body :global(.img-grid em) {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
 </style>

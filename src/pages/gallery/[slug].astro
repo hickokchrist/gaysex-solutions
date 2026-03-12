@@ -124,11 +124,10 @@ const { Content } = await album.render();
   }
   .post-body :global(.img-grid) {
     display: grid;
-    grid-template-columns: 1fr, 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin: 16px 0;
-	max-width: 500px;
-  }
+	}
   .post-body :global(.img-grid img) {
     width: 100%;
     aspect-ratio: 1/1;
@@ -149,7 +148,7 @@ const { Content } = await album.render();
   .post-body :global(img + em) {
     display: block;
     text-align: center;
-    font-size: 0.72rem;
+    font-size: 0.9rem;
     color: var(--gold);
     letter-spacing: 0.1em;
     margin-top: 0px;
@@ -158,7 +157,7 @@ const { Content } = await album.render();
   .post-body :global(.img-grid em) {
     display: block;
     text-align: center;
-    font-size: 0.72rem;
+    font-size: 0.9rem;
     color: var(--gold);
     letter-spacing: 0.1em;
     margin-bottom: 8px;
@@ -166,7 +165,6 @@ const { Content } = await album.render();
 @media (max-width: 900px) {
     .post-body :global(.img-grid) {
       grid-template-columns: 1fr;
-      max-width: 200px;
     }
   }
 </style>
