@@ -7,6 +7,7 @@ const blog = defineCollection({
     date: z.date(),
     excerpt: z.string(),
     thumbnail: z.string().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 
@@ -26,6 +27,7 @@ const gallery = defineCollection({
     date: z.date(),
     excerpt: z.string(),
     thumbnail: z.string().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 export const collections = { blog, newsletter, gallery };

@@ -3,6 +3,7 @@ title: "Jiafei Sketch"
 date: 2026-02-19
 excerpt: "I sketched my viral AI tiktok"
 thumbnail: "/images/jiafei4.webp"
+tags: ["drawing"]
 ---
 <p>
 I made a stupid <a href="https://www.tiktok.com/@bulbouscorm/photo/7593636323857009975?is_from_webapp=1&sender_device=pc&web_id=7614222781458449933

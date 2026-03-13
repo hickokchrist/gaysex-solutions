@@ -38,6 +38,14 @@ const { Content } = await album.render();
 
   <div class="post-body">
     <Content />
+	{album.data.tags && album.data.tags.length > 0 && (
+  <div class="post-tags-block">
+    <span class="tags-label">// TAGS:</span>
+    {album.data.tags.map(tag => (
+      <span class="post-tag">{tag}</span>
+    ))}
+  </div>
+)}
   </div>
 <div class="post-nav">
   <a href="/gallery">◄ Back to Gallery</a>
@@ -168,4 +176,28 @@ const { Content } = await album.render();
       grid-template-columns: 1fr;
     }
   }
+  .post-tags-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+}
+.tags-label {
+  font-size: 0.65rem;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  margin-right: 4px;
+}
+.post-tag {
+  font-size: 0.65rem;
+  color: var(--cyan);
+  border: 1px solid var(--panel-border);
+  padding: 3px 9px;
+  letter-spacing: 0.1em;
+  font-family: 'Courier New', monospace;
+}
 </style>

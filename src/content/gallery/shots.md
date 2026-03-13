@@ -3,6 +3,7 @@ title: "Fetus Shots"
 date: 2017-10-29
 excerpt: "Alcoholic gelatin shots, but make them even more disgusting."
 thumbnail: "/images/shot-babyweb2.webp"
+tags: ["craft", "culinary"]
 ---
 <p>
 In college, I threw a halloween party. God spoke to me and told me to make gelatin dessert shots with little fetuses in them. The bb'z were made of fondant, with a shell candy piece in the head for crunch! And because God told me to do this, you aren't allowed to be mad at me.

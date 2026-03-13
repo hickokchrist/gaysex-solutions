@@ -3,6 +3,7 @@ title: "Feet Pics 🦶👣📸"
 date: 2026-03-10
 excerpt: "I promise it's not sexual"
 thumbnail: "/images/footden-ring.webp"
+tags: ["photography"]
 ---
 <p>
 Using feet to compose the most cursed pics might a compulsion of mine, idk.

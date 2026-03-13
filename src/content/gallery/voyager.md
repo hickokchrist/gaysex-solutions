@@ -3,6 +3,7 @@ title: "Voyager Cosplay"
 date: 2026-03-09
 excerpt: "I hand-stitched a dickie!"
 thumbnail: "/images/trek.webp"
+tags: ["craft", "cosplay"]
 ---
 <p>
 One of my best good friends had a birthday and his husband (another best good friend) brought us out to a Star Trek escape room! Escapology in Raleigh Hills in Beaverton. Always being one for an immersive experience, I had to put an outfit together! Five dollars of fabric and my sewing repair kit - plus the advice of one of my other best good friends who has made cosplay for 22 years - made my first dickie!.

@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 const { post, prev, next } = Astro.props;
 const { Content } = await post.render();
 ---
-<Base title={`${post.data.title} // Gaysex Solutions`}  description={post.data.excerpt}
+<Base title={`${post.data.title} // Gaysex Solutions`} description={post.data.excerpt}
   image={post.data.thumbnail}>
 
 <nav class="breadcrumb">
@@ -44,22 +44,34 @@ const { Content } = await post.render();
 
   <div class="post-body">
     <Content />
-<div class="post-nav">
-  <div class="post-nav-inner">
-    {prev && (
-      <a href={`/blog/${prev.slug}`} class="post-nav-prev">
-        ◄ {prev.data.title}
-      </a>
-    )}
-    {!prev && <span></span>}
-    <a href="/blog" class="post-nav-up">▲ Back to Blog</a>
-    {next && (
-      <a href={`/blog/${next.slug}`} class="post-nav-next">
-        {next.data.title} ►
-      </a>
-    )}
   </div>
-</div>
+
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="post-tags-block">
+      <span class="tags-label">// TAGS:</span>
+      {post.data.tags.map(tag => (
+        <span class="post-tag">{tag}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="post-nav">
+    <div class="post-nav-inner">
+      {prev && (
+        <a href={`/blog/${prev.slug}`} class="post-nav-prev">
+          ◄ {prev.data.title}
+        </a>
+      )}
+      {!prev && <span></span>}
+      <a href="/blog" class="post-nav-up">▲ Back to Blog</a>
+      {next && (
+        <a href={`/blog/${next.slug}`} class="post-nav-next">
+          {next.data.title} ►
+        </a>
+      )}
+    </div>
+  </div>
+
 </Base>
 
 <style>
@@ -134,7 +146,6 @@ const { Content } = await post.render();
     border-top: 1px solid var(--panel-border);
     margin: 24px 0;
   }
-  
   .post-body :global(img) {
     max-width: 100%;
     height: auto;
@@ -145,6 +156,30 @@ const { Content } = await post.render();
   .post-body :global(.img-item p) {
     text-align: center;
     margin-bottom: 0;
+  }
+  .post-tags-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+  }
+  .tags-label {
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    margin-right: 4px;
+  }
+  .post-tag {
+    font-size: 0.65rem;
+    color: var(--cyan);
+    border: 1px solid var(--panel-border);
+    padding: 3px 9px;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
   }
   .post-nav {
     margin-top: 24px;
@@ -161,7 +196,7 @@ const { Content } = await post.render();
   }
   .post-nav-prev, .post-nav-next {
     max-width: 25%;
-	min-width:0;
+    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
