@@ -10,6 +10,9 @@ export async function GET({ request }) {
   const data = await res.json();
 
   return new Response(JSON.stringify(data), {
-    headers: { 'Content-Type': 'application/json' }
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400'
+    }
   });
 }
