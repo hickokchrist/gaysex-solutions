@@ -185,8 +185,10 @@ const currentPath = Astro.url.pathname;
       border-left-color: var(--cyan);
       text-decoration: none;
     }
-    .nav-link .icon { font-size: 1rem; width: 20px; text-align: center; }
-
+    .nav-link .icon { font-size: 1rem; width: 20px; text-align: center; filter: sepia(1) saturate(10) hue-rotate(170deg); }
+    .nav-link { text-decoration: none !important; }
+    .nav-link .nav-text { text-decoration: underline; }
+    .nav-link:hover .nav-text, .nav-link.active .nav-text { text-decoration: none; }
     .nav-footer {
       padding: 12px 14px;
       font-size: 0.6rem;
