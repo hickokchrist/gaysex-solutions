@@ -1,0 +1,201 @@
+---
+// src/pages/photospheres/index.astro
+
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('photospheres')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+function thumbUrl(cloud: string, id: string) {
+  return `https://res.cloudinary.com/${cloud}/image/upload/w_800,h_450,c_fill,f_auto,q_auto/${id}`;
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' });
+---
+
+<Base title="Photospheres // Gaysex Solutions" description="360° equirectangular captures">
+
+  <nav class="breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    <span class="crumb-current">Photospheres</span>
+  </nav>
+
+  <h1 class="page-heading">// Photospheres</h1>
+
+  <div class="collection-meta">
+    <span>{entries.length} image{entries.length !== 1 ? 's' : ''} // 360° equirectangular captures</span>
+  </div>
+
+  <div class="grid">
+    {entries.map((entry, i) => {
+      const { title, location, date, cloudinaryId, cloudinaryCloud } = entry.data;
+      const thumb = thumbUrl(cloudinaryCloud, cloudinaryId);
+      return (
+        <a
+          class="card"
+          href={`/photospheres/${entry.slug}`}
+          style={`animation-delay: ${i * 60}ms`}
+        >
+          <div class="thumb-wrap">
+            <img
+              src={thumb}
+              alt={`${title} — ${location}`}
+              loading="lazy"
+              decoding="async"
+              width="800"
+              height="450"
+            />
+            <div class="card-overlay">
+              <div class="look-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-title">{title}</div>
+              <div class="card-sub">{location}</div>
+            </div>
+            <div class="card-date">{dateFormat.format(date)}</div>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+
+</Base>
+
+<style>
+  .collection-meta {
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    display: block;
+    text-decoration: none !important;
+    color: inherit;
+    background: var(--deep);
+    border: 1px solid var(--panel-border);
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.06),
+      0 4px 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: reveal 0.4s ease forwards;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--cyan);
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.06),
+      0 4px 20px rgba(0,0,0,0.5),
+      0 0 12px rgba(0,234,255,0.15);
+  }
+
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .thumb-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease, filter 0.4s ease;
+  }
+
+  .card:hover .thumb-wrap img {
+    transform: scale(1.04);
+    filter: brightness(0.6);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .card:hover .card-overlay { opacity: 1; }
+
+  .look-icon {
+    width: 48px; height: 48px;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan);
+    transform: scale(0.85);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 12px rgba(0,234,255,0.3);
+  }
+
+  .card:hover .look-icon { transform: scale(1); }
+  .look-icon svg { width: 20px; height: 20px; }
+
+  .card-meta {
+    padding: 12px 14px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--panel-border);
+  }
+
+  .card-title {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .card-sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .card-date {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

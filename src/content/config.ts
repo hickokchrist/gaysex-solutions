@@ -10,7 +10,6 @@ const blog = defineCollection({
     tags: z.array(z.string()).optional(),
   }),
 });
-
 const newsletter = defineCollection({
 	type: 'content',
   schema: z.object({
@@ -30,4 +29,14 @@ const gallery = defineCollection({
     tags: z.array(z.string()).optional(),
   }),
 });
-export const collections = { blog, newsletter, gallery };
+const photospheres = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    location: z.string(),
+    date: z.coerce.date(),
+    cloudinaryId: z.string(),
+    cloudinaryCloud: z.string().default("dyjznbnvw"),
+  }),
+});
+export const collections = { blog, newsletter, gallery, photospheres };

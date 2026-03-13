@@ -1,0 +1,177 @@
+---
+// PhotosphereViewer.astro
+// Renders an interactive equirectangular photosphere using Three.js.
+// Props:
+//   imageUrl  — full URL to the equirectangular image (from Cloudinary or any CDN)
+//   title     — used for the aria-label
+interface Props {
+  imageUrl: string;
+  title?: string;
+}
+const { imageUrl, title = 'Photosphere' } = Astro.props;
+---
+
+<div class="psv-shell" aria-label={`Interactive photosphere: ${title}`}>
+  <canvas class="psv-canvas" tabindex="0"></canvas>
+  <div class="psv-hint">
+    <span>drag to look</span>
+    <span class="sep">·</span>
+    <span>scroll to zoom</span>
+  </div>
+  <div class="psv-coords" aria-live="polite"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" is:inline></script>
+
+<script define:vars={{ imageUrl }}>
+(function () {
+  // Find the nearest shell (handles multiple viewers on one page)
+  const scripts = document.querySelectorAll('script');
+  const thisScript = scripts[scripts.length - 1];
+  // Walk up to find the shell sibling
+  const shell = document.querySelector('.psv-shell:not([data-init])');
+  if (!shell) return;
+  shell.setAttribute('data-init', 'true');
+
+  const canvas  = shell.querySelector('.psv-canvas');
+  const coords  = shell.querySelector('.psv-coords');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+  camera.position.set(0, 0, 0.001);
+
+  const geo = new THREE.SphereGeometry(500, 60, 40);
+  geo.scale(-1, 1, 1);
+  const mat = new THREE.MeshBasicMaterial();
+  scene.add(new THREE.Mesh(geo, mat));
+
+  // Load texture
+  new THREE.TextureLoader().load(imageUrl, tex => {
+    tex.minFilter = THREE.LinearFilter;
+    mat.map = tex;
+    mat.needsUpdate = true;
+  });
+
+  let lon = 0, lat = 0, fov = 75;
+  const clampLat = v => Math.max(-85, Math.min(85, v));
+
+  function resize() {
+    const w = shell.clientWidth;
+    const h = shell.clientHeight;
+    if (canvas.width !== w || canvas.height !== h) {
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+  }
+
+  function tick() {
+    resize();
+    const phi   = THREE.MathUtils.degToRad(90 - lat);
+    const theta = THREE.MathUtils.degToRad(lon);
+    camera.lookAt(
+      500 * Math.sin(phi) * Math.cos(theta),
+      500 * Math.cos(phi),
+      500 * Math.sin(phi) * Math.sin(theta)
+    );
+    camera.fov = fov;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+    coords.textContent = `${lon.toFixed(1)}° / ${lat.toFixed(1)}°`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // Mouse drag
+  let dragging = false, lx = 0, ly = 0;
+  canvas.addEventListener('mousedown', e => { dragging = true; lx = e.clientX; ly = e.clientY; canvas.style.cursor = 'grabbing'; });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    lon  -= (e.clientX - lx) * 0.25;
+    lat   = clampLat(lat + (e.clientY - ly) * 0.25);
+    lx = e.clientX; ly = e.clientY;
+  });
+  window.addEventListener('mouseup', () => { dragging = false; canvas.style.cursor = 'grab'; });
+
+  // Touch
+  let ltx = 0, lty = 0;
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); ltx = e.touches[0].clientX; lty = e.touches[0].clientY; }, { passive: false });
+  canvas.addEventListener('touchmove',  e => {
+    e.preventDefault();
+    lon  -= (e.touches[0].clientX - ltx) * 0.3;
+    lat   = clampLat(lat + (e.touches[0].clientY - lty) * 0.3);
+    ltx = e.touches[0].clientX; lty = e.touches[0].clientY;
+  }, { passive: false });
+
+  // Scroll zoom
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    fov = Math.max(30, Math.min(110, fov + e.deltaY * 0.05));
+  }, { passive: false });
+
+  // Keyboard
+  canvas.addEventListener('keydown', e => {
+    const s = 3;
+    if (e.key === 'ArrowLeft')  lon += s;
+    if (e.key === 'ArrowRight') lon -= s;
+    if (e.key === 'ArrowUp')    lat  = clampLat(lat - s);
+    if (e.key === 'ArrowDown')  lat  = clampLat(lat + s);
+  });
+
+  window.addEventListener('resize', resize);
+})();
+</script>
+
+<style>
+  .psv-shell {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0a0a0a;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .psv-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    outline: none;
+  }
+
+  .psv-hint {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 1s ease 3s; /* fades after 3s on the viewer page */
+  }
+  .psv-shell:hover .psv-hint { opacity: 0; }
+
+  .psv-hint .sep { opacity: 0.3; }
+
+  .psv-coords {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.2);
+    pointer-events: none;
+  }
+</style>
