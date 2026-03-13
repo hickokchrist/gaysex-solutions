@@ -397,6 +397,44 @@ const currentPath = Astro.url.pathname;
   border: 1px solid var(--panel-border);
   background: #000;
 }
+.img-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.img-grid .img-item {
+  flex: 1 1 calc(50% - 8px);
+  max-width: calc(50% - 8px);
+}
+
+.img-grid .img-item img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  display: block;
+}
+
+.img-item img {
+  width: auto;
+  max-width: 100%;
+  max-height: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .img-item img {
+    width: 100%;
+    max-height: none;
+  }
+}
+blockquote {
+  border-left: 4px solid var(--gold);
+  padding-left: 16px;
+  margin: 16px 0;
+}
 </style>
 </head>
 <body>
@@ -422,26 +460,23 @@ const currentPath = Astro.url.pathname;
     <a class:list={["nav-link", { active: currentPath === "/about" }]} href="/about">
       <span class="icon">&#9670;</span> About
     </a>
-	<a class:list={["nav-link", { active: currentPath === "/solution" }]} href="/solution">
-      <span class="icon">✝️</span> The-Solution
-    </a>
-	<a class:list={["nav-link", { active: currentPath === "/sonic-stew" }]} href="/sonic-stew">
-      <span class="icon">&#128251;</span> Sonic-Stew
-    </a>
- <a class:list={["nav-link", { active: currentPath.startsWith("/blog") }]} href="/blog">
+	 <a class:list={["nav-link", { active: currentPath.startsWith("/blog") }]} href="/blog">
       <span class="icon">&#9997;</span> Blog
-    </a>
-    <a class:list={["nav-link", { active: currentPath.startsWith("/newsletter") }]} href="/newsletter">
-      <span class="icon">&#127760;</span> Newsletter
     </a>
 	<a class:list={["nav-link", { active: currentPath.startsWith("/gallery") }]} href="/gallery">
       <span class="icon">&#128247;</span> Gallery
     </a>
-    <a class:list={["nav-link", { active: currentPath === "/links" }]} href="/links">
+	<a class:list={["nav-link", { active: currentPath === "/sonic-stew" }]} href="/sonic-stew">
+      <span class="icon">&#128251;</span> Sonic-Stew
+    </a>
+	<a class:list={["nav-link", { active: currentPath === "/links" }]} href="/links">
       <span class="icon">&#9658;</span> Links
     </a>
     <a class:list={["nav-link", { active: currentPath === "/guestbook" }]} href="/guestbook">
       <span class="icon">&#9998;</span> Guestbook
+    </a>
+	<a class:list={["nav-link", { active: currentPath === "/solution" }]} href="/solution">
+      <span class="icon">✝️</span> The-Solution
     </a>
     <a href="mailto:christopher@gaysex.solutions" class="nav-link">
       <span class="icon">&#9993;</span> Contact
