@@ -244,14 +244,7 @@ const currentPath = Astro.url.pathname;
     }
 
     /* PAGE SHARED STYLES */
-    .page-heading {
-      font-size: 1.1rem;
-      color: var(--cyan);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      text-shadow: 0 0 10px var(--cyan);
-    }
+
     .info-block {
       background: var(--panel);
       border: 1px solid var(--panel-border);
@@ -316,6 +309,14 @@ const currentPath = Astro.url.pathname;
  
   </style>
   <style is:global>
+  	.page-heading {
+		font-size: 1.1rem;
+		color: var(--cyan);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		margin-bottom: 16px;
+		text-shadow: 0 0 7px var(--white), 1px 1px 0px rgba(232,240,255,0.5);
+}
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -397,12 +398,32 @@ const currentPath = Astro.url.pathname;
   border: 1px solid var(--panel-border);
   background: #000;
 }
+.img-item {
+  margin: 0 0 16px 0;
+  max-width: 100%;
+}
+.img-item.float-right {
+  float: right;
+  margin: 0 0 16px 20px;
+  max-width: 65%;
+}
+
+.img-item.float-left {
+  float: left;
+  margin: 0 20px 16px 0;
+  max-width: 65%;
+}
+.float-wrap {
+  overflow: hidden;
+  margin-bottom: 16px;
+}
 .img-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   margin: 16px 0;
 }
+
 
 .img-grid .img-item {
   flex: 1 1 calc(50% - 8px);
@@ -419,16 +440,34 @@ const currentPath = Astro.url.pathname;
 .img-item img {
   width: auto;
   max-width: 100%;
-  max-height: 500px;
+  max-height: 700px;
   display: block;
   margin: 0 auto;
 }
 
 @media (max-width: 700px) {
+  .float-wrap {
+    overflow: visible;
+  }
+  .img-item.float-right,
+  .img-item.float-left {
+    float: none;
+    max-width: 100%;
+    margin: 0 0 16px 0;
+  }
   .img-item img {
     width: 100%;
     max-height: none;
   }
+}
+.img-item.full-width {
+  max-width: 100%;
+  float: none;
+  clear: both;
+}
+
+.img-item.full-width img {
+  width: 100%;
 }
 blockquote {
   border-left: 4px solid var(--gold);
