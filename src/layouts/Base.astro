@@ -474,6 +474,12 @@ blockquote {
   padding-left: 16px;
   margin: 16px 0;
 }
+@media (min-width: 801px) {
+  #live-dot-btn {
+    pointer-events: none;
+    cursor: default;
+  }
+}
 </style>
 </head>
 <body>
@@ -485,7 +491,7 @@ blockquote {
     <span></span><span></span><span></span>
   </button>
   <a id="site-title" href="/">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</a>
-  <div class="live-dot" title="Live feed active"></div>
+  <button class="live-dot" title="Open navigation" id="live-dot-btn" aria-label="Open navigation"></button>
 </div>
 
 <div id="nav-overlay"></div>
@@ -555,6 +561,7 @@ function toggleNav() {
 
   document.getElementById('hamburger').addEventListener('click', toggleNav);
   document.getElementById('nav-overlay').addEventListener('click', toggleNav);
+  document.getElementById('live-dot-btn').addEventListener('click', toggleNav);
   
   // Set APOD background on pages that expose window.apodImageUrl
   window.addEventListener('load', () => {

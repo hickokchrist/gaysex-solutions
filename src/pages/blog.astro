@@ -205,6 +205,12 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
     color: var(--red);
     border-color: var(--red);
   }
+  @media (min-width: 1200px) {
+    .posts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 </style>
 
 <script is:inline>
