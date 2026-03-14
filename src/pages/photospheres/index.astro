@@ -11,35 +11,23 @@ const entries = (await getCollection('photospheres')).sort(
 function thumbUrl(cloud: string, id: string) {
   return `https://res.cloudinary.com/${cloud}/image/upload/w_800,h_450,c_fill,f_auto,q_auto/${id}`;
 }
-
-const dateFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' });
 ---
 
 <Base title="Photospheres // Gaysex Solutions" description="360° equirectangular captures">
 
-  <nav class="breadcrumb">
-    <a href="/">Home</a>
-    <span>›</span>
-    <span class="crumb-current">Photospheres</span>
-  </nav>
-
-  <h1 class="page-heading">// Photospheres</h1>
-
-  <div class="collection-meta">
-    <span>{entries.length} image{entries.length !== 1 ? 's' : ''} // 360° equirectangular captures</span>
-  </div>
-
-  <div class="grid">
-    {entries.map((entry, i) => {
+<div class="page-heading">>> Photospheres</div>
+// CLICK ANY IMAGE TO VIEW IN 3D<br>
+<br>
+  <div class="gallery-grid" id="gallery-grid">
+    {entries.map(entry => {
       const { title, location, date, cloudinaryId, cloudinaryCloud } = entry.data;
       const thumb = thumbUrl(cloudinaryCloud, cloudinaryId);
       return (
         <a
-          class="card"
           href={`/photospheres/${entry.slug}`}
-          style={`animation-delay: ${i * 60}ms`}
+          class="gallery-tile"
         >
-          <div class="thumb-wrap">
+          <div class="tile-thumb">
             <img
               src={thumb}
               alt={`${title} — ${location}`}
@@ -48,93 +36,90 @@ const dateFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'l
               width="800"
               height="450"
             />
-            <div class="card-overlay">
+            <div class="tile-overlay">
               <div class="look-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <circle cx="12" cy="12" r="3"/>
                   <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="card-meta">
-            <div>
-              <div class="card-title">{title}</div>
-              <div class="card-sub">{location}</div>
-            </div>
-            <div class="card-date">{dateFormat.format(date)}</div>
+          <div class="tile-label">
+            <div class="tile-title">{title}</div>
+            <div class="tile-date">{date.toISOString().split('T')[0]} // {location}</div>
           </div>
         </a>
       );
     })}
   </div>
 
+  <div id="pagination-container"></div>
+
+  <div class="post-nav">
+    <a href="/">◄ Back to Home</a>
+  </div>
+
 </Base>
 
 <style>
-  .collection-meta {
-    font-size: 0.65rem;
-    color: var(--dim);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  .grid {
+  .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 12px;
   }
 
-  .card {
-    display: block;
-    text-decoration: none !important;
-    color: inherit;
-    background: var(--deep);
+  @media (min-width: 1100px) {
+    .gallery-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .gallery-tile {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
     border: 1px solid var(--panel-border);
     box-shadow:
       inset 1px 1px 0 rgba(255,255,255,0.06),
       0 4px 20px rgba(0,0,0,0.5);
+    text-decoration: none !important;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(12px);
-    animation: reveal 0.4s ease forwards;
-    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
-  .card:hover {
+  .gallery-tile:hover {
     border-color: var(--cyan);
-    box-shadow:
-      inset 1px 1px 0 rgba(255,255,255,0.06),
-      0 4px 20px rgba(0,0,0,0.5),
-      0 0 12px rgba(0,234,255,0.15);
+    box-shadow: 0 0 16px rgba(0,234,255,0.15);
+    transform: translateY(-2px);
   }
 
-  @keyframes reveal {
-    to { opacity: 1; transform: translateY(0); }
+  .gallery-tile.hidden {
+    display: none;
   }
 
-  .thumb-wrap {
+  .tile-thumb {
     position: relative;
+    width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: #000;
   }
 
-  .thumb-wrap img {
+  .tile-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease, filter 0.4s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
   }
 
-  .card:hover .thumb-wrap img {
-    transform: scale(1.04);
+  .gallery-tile:hover .tile-thumb img {
+    transform: scale(1.05);
     filter: brightness(0.6);
   }
 
-  .card-overlay {
+  .tile-overlay {
     position: absolute;
     inset: 0;
     display: flex;
@@ -145,57 +130,144 @@ const dateFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'l
     pointer-events: none;
   }
 
-  .card:hover .card-overlay { opacity: 1; }
+  .gallery-tile:hover .tile-overlay { opacity: 1; }
 
   .look-icon {
-    width: 48px; height: 48px;
+    width: 36px; height: 36px;
     border: 1px solid var(--cyan);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0,234,255,0.3);
     transform: scale(0.85);
     transition: transform 0.3s ease;
-    box-shadow: 0 0 12px rgba(0,234,255,0.3);
   }
 
-  .card:hover .look-icon { transform: scale(1); }
-  .look-icon svg { width: 20px; height: 20px; }
+  .gallery-tile:hover .look-icon { transform: scale(1); }
+  .look-icon svg { width: 16px; height: 16px; }
 
-  .card-meta {
-    padding: 12px 14px 14px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
+  .tile-label {
+    padding: 8px 10px;
     border-top: 1px solid var(--panel-border);
   }
 
-  .card-title {
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
+  .tile-title {
+    font-size: 0.78rem;
     color: var(--gold);
-    line-height: 1.3;
-    margin-bottom: 4px;
-  }
-
-  .card-sub {
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-
-  .card-date {
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    color: var(--dim);
+    letter-spacing: 0.06em;
     white-space: nowrap;
-    padding-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
+  .tile-date {
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  #pagination-container {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .page-btn {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--cyan);
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .page-btn:hover {
+    border-color: var(--cyan);
+    color: var(--gold);
+  }
+
+  .page-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .page-ellipsis {
+    color: var(--dim);
+    font-size: 0.75rem;
+    padding: 4px;
+    font-family: 'Courier New', monospace;
+  }
+
 </style>
+
+<script is:inline>
+  var PER_PAGE = 25; // 5 cols × 5 rows
+  var currentPage = 1;
+
+  var allCards = Array.from(document.querySelectorAll('.gallery-tile'));
+
+  function renderPage(page) {
+    currentPage = page;
+    var total = allCards.length;
+    var totalPages = Math.ceil(total / PER_PAGE);
+    var start = (page - 1) * PER_PAGE;
+    var end = start + PER_PAGE;
+
+    allCards.forEach(function(card) { card.classList.add('hidden'); });
+    allCards.slice(start, end).forEach(function(card) { card.classList.remove('hidden'); });
+
+    renderPagination(page, totalPages);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderPagination(current, total) {
+    var container = document.getElementById('pagination-container');
+    container.innerHTML = '';
+    if (total <= 1) return;
+
+    var MAX_VISIBLE = 5;
+    var pages = [];
+    pages.push(1);
+
+    var start = Math.max(2, current - 1);
+    var end = Math.min(total - 1, current + 1);
+
+    while (end - start < MAX_VISIBLE - 3 && (start > 2 || end < total - 1)) {
+      if (start > 2) start--;
+      if (end < total - 1) end++;
+    }
+
+    if (start > 2) pages.push('...');
+    for (var i = start; i <= end; i++) pages.push(i);
+    if (end < total - 1) pages.push('...');
+    if (total > 1) pages.push(total);
+
+    pages.forEach(function(p) {
+      if (p === '...') {
+        var span = document.createElement('span');
+        span.className = 'page-ellipsis';
+        span.textContent = '...';
+        container.appendChild(span);
+      } else {
+        var btn = document.createElement('button');
+        btn.className = 'page-btn' + (p === current ? ' active' : '');
+        btn.textContent = p;
+        btn.addEventListener('click', function() { renderPage(p); });
+        container.appendChild(btn);
+      }
+    });
+  }
+
+  renderPage(1);
+</script>

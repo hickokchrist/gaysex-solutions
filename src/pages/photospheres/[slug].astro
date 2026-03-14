@@ -26,7 +26,6 @@ const dateStr = date.toISOString().split('T')[0];
 ---
 
 <Base title={`${title} // Gaysex Solutions`} description={location}>
-
   <nav class="breadcrumb">
     <a href="/">Home</a>
     <span>›</span>
@@ -34,23 +33,20 @@ const dateStr = date.toISOString().split('T')[0];
     <span>›</span>
     <span class="crumb-current">{title}</span>
   </nav>
-
   <div class="post-header">
     <div class="post-date">{dateStr}</div>
     <h1 class="post-title">{title}</h1>
     <div class="post-excerpt">{location}</div>
   </div>
-
+  // <strong>Click and drag to look around in 3D </strong><br>
+  <br>
   <div class="viewer-wrap">
     <Photospheres imageUrl={fullUrl} title={title} />
   </div>
-
   <div class="post-nav">
     <a href="/photospheres">◄ Back to Photospheres</a>
   </div>
-
 </Base>
-
 <style>
   .post-header {
     background: var(--panel);
