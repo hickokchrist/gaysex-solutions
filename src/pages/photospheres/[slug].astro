@@ -21,11 +21,20 @@ const { entry } = Astro.props;
 const { title, location, date, cloudinaryId, cloudinaryCloud } = entry.data;
 
 const fullUrl = `https://res.cloudinary.com/${cloudinaryCloud}/image/upload/f_auto,q_auto/${cloudinaryId}`;
-
+const ogImage = `https://res.cloudinary.com/${cloudinaryCloud}/image/upload/w_1200,h_630,c_fill,f_auto,q_auto/${cloudinaryId}`;
+const dateIso = date.toISOString();
 const dateStr = date.toISOString().split('T')[0];
 ---
 
-<Base title={`${title} // Gaysex Solutions`} description={location}>
+<Base
+  title={`${title} // Gaysex Solutions`}
+  description={`360° photosphere — ${location} (${dateStr})`}
+  image={ogImage}
+>
+<Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content={dateIso} />
+  </Fragment>
   <nav class="breadcrumb">
     <a href="/">Home</a>
     <span>›</span>

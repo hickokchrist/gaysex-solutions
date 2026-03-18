@@ -19,6 +19,7 @@ const currentPath = Astro.url.pathname;
   <meta property="og:url" content={`https://gaysex.solutions${Astro.url.pathname}`} />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
+  <slot name="head" />
   <style>
     :root {
       --black:        #000008;
