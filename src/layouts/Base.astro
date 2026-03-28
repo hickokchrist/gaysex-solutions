@@ -487,6 +487,7 @@ blockquote {
 .info-block {
   background: var(--panel);
   border: 1px solid var(--panel-border);
+  border-radius: 12px;
   border-left: 4px solid var(--cyan);
   box-shadow:
     inset 1px 1px 0 rgba(255,255,255,0.06),
@@ -497,6 +498,18 @@ blockquote {
   color: var(--white);
   margin-bottom: 16px;
 }
+.two-col {
+  column-gap: 2rem;
+}
+.three-col {
+  column-gap: 2rem;
+}
+@media (min-width: 1200px) {
+  .two-col { column-count: 2; }
+  }
+@media (min-width: 1600px) {
+  .three-col (column-count: 3; )
+  }
 </style>
 </head>
 <body>
