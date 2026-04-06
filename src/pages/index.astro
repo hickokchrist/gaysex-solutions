@@ -298,8 +298,7 @@ import Base from '../layouts/Base.astro';
 
 <script>
 const API_BASE = '/api/apod';
-  const CACHE_KEY = 'apod_cache';
-  const CACHE_TTL = 24 * 60 * 60 * 1000;
+
 
   async function fetchAPOD(date) {
     const url = date ? `${API_BASE}?date=${date}` : API_BASE;
@@ -308,34 +307,27 @@ const API_BASE = '/api/apod';
     return res.json();
   }
 
-  async function loadTodayAPOD() {
-    try {
-      let data;
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { timestamp, payload } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_TTL) {
-          data = payload;
-        }
-      }
-      if (!data) {
-        data = await fetchAPOD();
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          timestamp: Date.now(),
-          payload: data
-        }));
-      }
-      renderAPOD(data);
-
-
-	  
-    } catch (e) {
-      document.getElementById('loading').style.display = 'none';
-      const err = document.getElementById('error-msg');
-      err.style.display = 'block';
-      err.innerHTML = '>> <s>TRANSMISSION</s> TRANS🏳️‍⚧️ MISSION ERROR: failed to fetch (arf!)';
-    }
+async function loadTodayAPOD() {
+  try {
+    const data = await fetchAPOD();
+    renderAPOD(data);
+  } catch (e) {
+    document.getElementById('loading').style.display = 'none';
+    const card = document.getElementById('apod-card');
+    card.style.display = 'block';
+    document.getElementById('apod-date').textContent = '// DATE: UNKNOWN';
+    document.getElementById('apod-title').textContent = 'CONNECTION ERROR';
+    document.getElementById('apod-explanation').textContent = 'NASA appears to be offline. No APOD.';
+    document.getElementById('apod-copyright').textContent = '';
+    const wrap = document.getElementById('apod-media-wrap');
+    wrap.innerHTML = '';
+    const img = document.createElement('img');
+    img.className = 'apod-media';
+    img.src = '/images/404.webp';
+    img.alt = 'NASA offline';
+    wrap.appendChild(img);
   }
+}
 
   function renderAPOD(data) {
     document.getElementById('loading').style.display = 'none';
