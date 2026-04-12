@@ -300,12 +300,13 @@ import Base from '../layouts/Base.astro';
 const API_BASE = '/api/apod';
 
 
-  async function fetchAPOD(date) {
-    const url = date ? `${API_BASE}?date=${date}` : API_BASE;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`API error ${res.status}`);
-    return res.json();
-  }
+async function fetchAPOD(date) {
+  const bust = Date.now();
+  const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  return res.json();
+}
 
 async function loadTodayAPOD() {
   try {
