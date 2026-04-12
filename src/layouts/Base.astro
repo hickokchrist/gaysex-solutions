@@ -42,10 +42,15 @@ const currentPath = Astro.url.pathname;
       min-height: 100%;
       background: var(--black);
       color: var(--white);
+	  text-shadow: 0 0 1px rgba(0,0,0,0.9);
       font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
       overflow-x: hidden;
+	  font-size: 1.15rem;
+	  line-height: 1.9;
 	  font-weight: 500;
-	  font-size: 1.09rem;
+	  text-rendering: optimizeLegibility;
+	  
+	  
     }
 
     a { color: var(--cyan); text-decoration: none; text-shadow: 0 0 8px rgba(0,234,255,0.5); }
@@ -293,7 +298,7 @@ const currentPath = Astro.url.pathname;
       #sidenav.open { transform: translateX(0); }
       #main { margin-left: 0; padding: 16px 14px 50px; }
 	  #site-title {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     letter-spacing: 0.05em;
   }
     }
@@ -521,7 +526,7 @@ blockquote {
   <button id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-  <a id="site-title" href="/">&#9733; <span>Gaysex Solutions</span> // Christopher's Personal Website and Portfolio &#9733;</a>
+  <a id="site-title" href="/">&#9733; <span>Christopher - "Hole McJail" </span> // Personal Website and Portfolio &#9733;</a>
   <button class="live-dot" title="Open navigation" id="live-dot-btn" aria-label="Open navigation"></button>
 </div>
 
@@ -577,8 +582,8 @@ blockquote {
 <main id="main">
   <div class="marquee-wrap">
     <div class="marquee-track">
-      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY MIND</b> &nbsp;&nbsp; &#9733; THE UNIVERSE AWAITS &#9733; &nbsp;&nbsp; <b>PLEASE HIRE ME!</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>CERTIFIED MASTER TUTOR</b> &nbsp;&nbsp; &#9733; OF CALCUL-ASS &#9733; &nbsp;&nbsp;</span>
-      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY MIND</b> &nbsp;&nbsp; &#9733; THE UNIVERSE AWAITS &#9733; &nbsp;&nbsp; <b>PLEASE HIRE ME!</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>CERTIFIED MASTER TUTOR</b> &nbsp;&nbsp; &#9733; OF CALCUL-ASS &#9733; &nbsp;&nbsp;</span>
+      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY DIGITAL MANDALA</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>B.S., APPLIED PHYSICS, 2018</b> &nbsp;&nbsp; &#9733; CERTIFIED MASTER TUTOR &#9733; &nbsp;&nbsp; <b>RADIO DJ</b> &nbsp;&nbsp;</span>
+      <span>&#9733; WELCOME TO GAYSEX SOLUTIONS &#9733; &nbsp;&nbsp; <b>EXPLORE MY DIGITAL MANDALA</b> &nbsp;&nbsp; &#9733; DO NOT BE ALARMED BY THE HILARIOUS DOMAIN NAME &#9733; &nbsp;&nbsp; <b>B.S., APPLIED PHYSICS, 2018</b> &nbsp;&nbsp; &#9733; CERTIFIED MASTER TUTOR &#9733; &nbsp;&nbsp; <b>RADIO DJ</b> &nbsp;&nbsp;</span>
     </div>
   </div>
   <slot />
