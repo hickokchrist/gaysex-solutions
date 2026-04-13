@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 <Base>
   <!-- UNDER CONSTRUCTION -->
@@ -296,118 +298,102 @@ import Base from '../layouts/Base.astro';
   }
 </style>
 
-<script is:inline>
-const API_BASE = '/api/apod.js'; 
+<script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
+  const API_BASE = '/api/apod';
 
-async function fetchAPOD(date) {
-  const bust = Date.now();
-  const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
-  const res = await fetch(url, {
-    cache: 'no-store',
-    headers: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache'
+  async function fetchAPOD(date) {
+    const bust = Date.now();
+    const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    return res.json();
+  }
+
+  async function loadTodayAPOD() {
+    try {
+      const data = await fetchAPOD();
+      renderAPOD(data);
+    } catch (e) {
+	  console.error("APOD Script Failure:", e);
+      document.getElementById('loading').style.display = 'none';
+      const card = document.getElementById('apod-card');
+      card.style.display = 'block';
+      document.getElementById('apod-date').textContent = '// DATE: UNKNOWN';
+      document.getElementById('apod-title').textContent = 'CONNECTION ERROR';
+      document.getElementById('apod-explanation').textContent = 'NASA appears to be offline. No APOD.';
+      const wrap = document.getElementById('apod-media-wrap');
+      wrap.innerHTML = '';
+      const img = document.createElement('img');
+      img.className = 'apod-media';
+      img.src = '/images/404.webp';
+      img.alt = 'NASA offline';
+      wrap.appendChild(img);
     }
-  });
-  if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
-}
+  }
 
-async function loadTodayAPOD() {
-  try {
-    const data = await fetchAPOD();
-    renderAPOD(data);
-  } catch (e) {
-    console.error('APOD fetch error:', e);
+  function renderAPOD(data) {
     document.getElementById('loading').style.display = 'none';
     const card = document.getElementById('apod-card');
     card.style.display = 'block';
-    document.getElementById('apod-date').textContent = '// DATE: UNKNOWN';
-    document.getElementById('apod-title').textContent = 'CONNECTION ERROR';
-    document.getElementById('apod-explanation').textContent = 'NASA appears to be offline. No APOD.';
-    document.getElementById('apod-copyright').textContent = '';
+    document.getElementById('apod-date').textContent = '// DATE: ' + data.date;
+    document.getElementById('apod-title').textContent = data.title;
+    document.getElementById('apod-explanation').textContent = data.explanation;
+    document.getElementById('apod-copyright').textContent =
+      data.copyright ? '// IMAGE CREDIT: ' + data.copyright.trim() : '';
     const wrap = document.getElementById('apod-media-wrap');
     wrap.innerHTML = '';
-    const img = document.createElement('img');
-    img.className = 'apod-media';
-    img.src = '/images/404.webp';
-    img.alt = 'NASA offline';
-    wrap.appendChild(img);
+    if (data.media_type === 'video') {
+      wrap.innerHTML = `<div class="apod-iframe-wrap"><iframe src="${data.url}" allowfullscreen></iframe></div>`;
+    } else {
+      const img = document.createElement('img');
+      img.className = 'apod-media';
+      img.src = data.url || data.hdurl;
+      img.alt = data.title;
+      img.loading = 'eager';
+      wrap.appendChild(img);
+    }
   }
-}
 
-function renderAPOD(data) {
-  document.getElementById('loading').style.display = 'none';
-  const card = document.getElementById('apod-card');
-  card.style.display = 'block';
-  document.getElementById('apod-date').textContent = '// DATE: ' + data.date;
-  document.getElementById('apod-title').textContent = data.title;
-  document.getElementById('apod-explanation').textContent = data.explanation;
-  document.getElementById('apod-copyright').textContent =
-    data.copyright ? '// IMAGE CREDIT: ' + data.copyright.trim() : '';
-  const wrap = document.getElementById('apod-media-wrap');
-  wrap.innerHTML = '';
-  if (data.media_type === 'video') {
-    wrap.innerHTML = `<div class="apod-iframe-wrap"><iframe src="${data.url}" allowfullscreen></iframe></div>`;
-  } else {
-    const img = document.createElement('img');
-    img.className = 'apod-media';
-    img.src = data.url || data.hdurl;
-    img.alt = data.title;
-    img.loading = 'eager';
-    wrap.appendChild(img);
-  }
-}
-
-// Run when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadTodayAPOD);
-} else {
-  loadTodayAPOD();
-}
-
-// ---- SITE COUNTER ----
-async function loadAndIncrementCounter() {
-  try {
-    const res = await fetch(
-      `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/counter?select=count`,
-      {
-        headers: {
-          apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+  // ---- SITE COUNTER ----
+  async function loadAndIncrementCounter() {
+    try {
+      const res = await fetch(
+        `${supabaseUrl}/rest/v1/counter?select=count`,
+        {
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+          }
         }
-      }
-    );
-    const data = await res.json();
-    const current = data[0].count;
+      );
+      const data = await res.json();
+      const current = data[0].count;
 
-    // Increment
-    await fetch(
-       `${import.meta.env.PUBLIC_SUPABASE_URL}/rest/v1/counter?id=eq.1`,
-      {
-        method: 'PATCH',
-        headers: {
-          apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify({ count: current + 1 })
-      }
-    );
+      await fetch(
+         `${supabaseUrl}/rest/v1/counter?id=eq.1`,
+        {
+          method: 'PATCH',
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal'
+          },
+          body: JSON.stringify({ count: current + 1 })
+        }
+      );
 
-    // Display
-    const digits = String(current + 1).padStart(6, '0').split('');
-    const container = document.getElementById('site-counter');
-    container.innerHTML = digits.map(d => `<span class="hit-digit">${d}</span>`).join('');
-  } catch (e) {
-    console.error('Counter error:', e);
+      const digits = String(current + 1).padStart(6, '0').split('');
+      const container = document.getElementById('site-counter');
+      if (container) {
+        container.innerHTML = digits.map(d => `<span class="hit-digit">${d}</span>`).join('');
+      }
+    } catch (e) {
+      console.error("Counter failed:", e);
+    }
   }
-}
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadAndIncrementCounter);
-} else {
+  // Initialize both
+  loadTodayAPOD();
   loadAndIncrementCounter();
-}
 </script>
