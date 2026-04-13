@@ -2,7 +2,7 @@
 title: "Feet Pics 🦶👣📸"
 date: 2026-03-10
 excerpt: "I promise it's not sexual"
-thumbnail: "/images/footden-ring.webp"
+thumbnail: "/images/feet-dogs.webp"
 tags: ["photography"]
 ---
 <p>
@@ -24,8 +24,8 @@ Using feet to compose the most cursed pics might a compulsion of mine, idk.
 </div>
 <div>
 
-![](/images/feet-dogs.webp)
-*digging in*
+![](/images/footden-ring.webp)
+*Tarnished*
 
 </div>
 <div>

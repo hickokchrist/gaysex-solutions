@@ -1,7 +1,7 @@
 ---
-title: "Masquerade Party"
+title: "Masquerade Mask"
 date: 2024-06-15
-excerpt: "I made a mask."
+excerpt: "Mask 4 masc"
 thumbnail: "/images/deadbee.webp"
 tags: ["craft"]
 ---
