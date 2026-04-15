@@ -1,0 +1,5 @@
+[[headers]]
+  for = "/api/apod"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate"
+    Vary = "*"
