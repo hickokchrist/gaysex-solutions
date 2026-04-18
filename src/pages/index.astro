@@ -301,14 +301,21 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
   const API_BASE = '/api/apod';
 
-  async function fetchAPOD(date) {
-    const bust = Date.now();
-    const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`API error ${res.status}`);
-    return res.json();
-  }
-
+	async function fetchAPOD(date) {
+	  const bust = Date.now();
+	  const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
+	  const controller = new AbortController();
+	  const timeout = setTimeout(() => controller.abort(), 9001);
+	  try {
+		const res = await fetch(url, { signal: controller.signal });
+		clearTimeout(timeout);
+		if (!res.ok) throw new Error(`API error ${res.status}`);
+		return res.json();
+	  } catch (e) {
+		clearTimeout(timeout);
+		throw e;
+	  }
+	}	
   async function loadTodayAPOD() {
     try {
       const data = await fetchAPOD();
@@ -320,7 +327,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       card.style.display = 'block';
       document.getElementById('apod-date').textContent = '// DATE: UNKNOWN';
       document.getElementById('apod-title').textContent = 'CONNECTION ERROR';
-      document.getElementById('apod-explanation').textContent = 'NASA appears to be offline. No APOD.';
+      document.getElementById('apod-explanation').textContent = 'API connection appears to be offline. No APOD.';
       const wrap = document.getElementById('apod-media-wrap');
       wrap.innerHTML = '';
       const img = document.createElement('img');

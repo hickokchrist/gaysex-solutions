@@ -1,5 +1,9 @@
+[build]
+  command = "astro build"
+  publish = "dist"
+ 
 [[headers]]
-  for = "/api/apod"
+  for = "/api/*"
   [headers.values]
     Cache-Control = "no-store, no-cache, must-revalidate"
-    Vary = "*"
+ 
