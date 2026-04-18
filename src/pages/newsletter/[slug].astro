@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
+export const prerender = true;
 export async function getStaticPaths() {
   const issues = (await getCollection('newsletter')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()

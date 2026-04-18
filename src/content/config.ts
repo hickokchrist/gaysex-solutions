@@ -10,15 +10,6 @@ const blog = defineCollection({
     tags: z.array(z.string()).optional(),
   }),
 });
-const newsletter = defineCollection({
-	type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    excerpt: z.string(),
-    thumbnail: z.string().optional(),
-  }),
-});
 const gallery = defineCollection({
   type: 'content',
   schema: z.object({
@@ -39,4 +30,4 @@ const photospheres = defineCollection({
     cloudinaryCloud: z.string().default("dyjznbnvw"),
   }),
 });
-export const collections = { blog, newsletter, gallery, photospheres };
+export const collections = { blog, gallery, photospheres };
