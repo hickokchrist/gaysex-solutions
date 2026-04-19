@@ -300,22 +300,22 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
 <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
   const API_BASE = '/api/apod';
-
-	async function fetchAPOD(date) {
-	  const bust = Date.now();
-	  const url = date ? `${API_BASE}?date=${date}&_=${bust}` : `${API_BASE}?_=${bust}`;
-	  const controller = new AbortController();
-	  const timeout = setTimeout(() => controller.abort(), 9001);
-	  try {
-		const res = await fetch(url, { signal: controller.signal });
-		clearTimeout(timeout);
-		if (!res.ok) throw new Error(`API error ${res.status}`);
-		return res.json();
-	  } catch (e) {
-		clearTimeout(timeout);
-		throw e;
-	  }
-	}	
+async function fetchAPOD() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(
+      `https://api.nasa.gov/planetary/apod?api_key=0rX3rI1mkEJt8bADv4fZ8qXkRJZaWSzQx7hDl687`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`NASA error ${res.status}`);
+    return res.json();
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
+}
   async function loadTodayAPOD() {
     try {
       const data = await fetchAPOD();
