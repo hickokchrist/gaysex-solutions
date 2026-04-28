@@ -6,7 +6,7 @@ thumbnail: "/images/honeycomb-sprinkles.webp"
 tags: ["culinary"]
 ---
 <p>
-Many years ago, I went to a candy store before seeing a movie, and saw something called either honeycomb candy or seafoam candy. It was a cruncy airy toffee coated in chocolate. So delicious! 
+Many years ago, I went to a candy store before seeing a movie, and saw something called either honeycomb candy or seafoam candy. It was a crunchy airy toffee coated in chocolate. So delicious! 
 </p>
 <p>
 When pandemic hit, one of my projects was to learn how to make that. It's been a fun treat to bring for events and gifts ever since!
