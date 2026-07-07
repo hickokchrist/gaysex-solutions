@@ -3,7 +3,7 @@ title: "Feet Pics 🦶👣📸"
 date: 2026-03-10
 excerpt: "I promise it's not sexual"
 thumbnail: "/images/feet-dogs.webp"
-tags: ["photography"]
+tags: ["photography","digital"]
 ---
 <p>
 Using feet to compose the most cursed pics might a compulsion of mine, idk.
