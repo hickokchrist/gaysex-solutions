@@ -658,6 +658,11 @@ function toggleNav() {
   </div>
 </div>
 <script>
+(function() {
+  if (window.location.pathname === '/blog') return;
+  if (window.location.pathname === '/gallery') return;
+  if (window.location.pathname.startsWith('/photospheres')) return;
+  //
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightbox-img');
   const lbInner = document.getElementById('lightbox-inner');
@@ -721,6 +726,7 @@ function toggleNav() {
 		lastDist = dist;
 	  }
 	}, { passive: false });	
+	})();
 </script>
 </body>
 </html>
