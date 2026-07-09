@@ -55,7 +55,7 @@ const { imageUrl, title = 'Photosphere' } = Astro.props;
     mat.needsUpdate = true;
   });
 
-  let lon = 0, lat = 0, fov = 75;
+  let lon = 180, lat = 0, fov = 80;
   const clampLat = v => Math.max(-85, Math.min(85, v));
 
   function resize() {
