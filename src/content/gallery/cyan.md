@@ -3,7 +3,7 @@ title: "Masquerade Mask"
 date: 2024-06-15
 excerpt: "Mask 4 masc"
 thumbnail: "/images/deadbee.webp"
-tags: ["craft"]
+tags: ["craft","cosplay"]
 ---
 <p>
 One of my dear friends Matthew is known for throwing amazing birthday parties. in 2024, it was a masquerade!
