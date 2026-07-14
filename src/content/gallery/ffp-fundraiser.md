@@ -1,5 +1,5 @@
 ---
-title: "FFP Digital Media"
+title: "Digital Cyber Media"
 date: 2026-07-07
 excerpt: "Having fun with Blender"
 thumbnail: "/images/poster-tonedown.webp"
@@ -156,7 +156,7 @@ Oh, also the fact that there's a singularity next door, it felt appropriate to g
 
 <div class="img-item">
 
-![](/images/banner-4.png)
+![](/images/social-square-1a.png)
 *One of my final submissions*
 
 </div>
