@@ -102,9 +102,13 @@ const currentPath = Astro.url.pathname;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      padding: 6px;
+      padding: 6px 9px;
       background: none;
-      border: none;
+      border: 1px solid var(--cyan);
+      border-radius: 3px;
+    }
+    #hamburger:hover {
+      background: rgba(0,200,255,0.1);
     }
     #hamburger span {
       display: block;
