@@ -361,32 +361,21 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   async function loadAndIncrementCounter() {
     try {
       const res = await fetch(
-        `${supabaseUrl}/rest/v1/counter?select=count`,
+        `${supabaseUrl}/rest/v1/rpc/increment_counter`,
         {
+          method: 'POST',
           headers: {
             apikey: supabaseKey,
             Authorization: `Bearer ${supabaseKey}`,
-          }
-        }
-      );
-      const data = await res.json();
-      const current = data[0].count;
-
-      await fetch(
-         `${supabaseUrl}/rest/v1/counter?id=eq.1`,
-        {
-          method: 'PATCH',
-          headers: {
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-            'Content-Type': 'application/json',
-            Prefer: 'return=minimal'
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ count: current + 1 })
+          body: '{}'
         }
       );
+      if (!res.ok) throw new Error(`Counter API error ${res.status}`);
+      const current = await res.json();
 
-      const digits = String(current + 1).padStart(6, '0').split('');
+      const digits = String(current).padStart(6, '0').split('');
       const container = document.getElementById('site-counter');
       if (container) {
         container.innerHTML = digits.map(d => `<span class="hit-digit">${d}</span>`).join('');
@@ -395,7 +384,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       console.error("Counter failed:", e);
     }
   }
-
   // Initialize both
   loadTodayAPOD();
   loadAndIncrementCounter();
