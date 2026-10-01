@@ -665,77 +665,125 @@ function toggleNav() {
     <img id="lightbox-img" src="" alt="" />
   </div>
 </div>
-<script>
-(function() {
-  if (window.location.pathname === '/blog') return;
-  if (window.location.pathname === '/solution') return;
-  if (window.location.pathname === '/gallery') return;
-  if (window.location.pathname.startsWith('/photospheres')) return;
-  //
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightbox-img');
-  const lbInner = document.getElementById('lightbox-inner');
-  let scale = 1;
+	<script>
+	(function() {
+	  if (window.location.pathname === '/blog') return;
+	  if (window.location.pathname === '/solution') return;
+	  if (window.location.pathname === '/gallery') return;
+	  if (window.location.pathname.startsWith('/photospheres')) return;
+	  //
+	  const lb = document.getElementById('lightbox');
+	  const lbImg = document.getElementById('lightbox-img');
+	  const lbInner = document.getElementById('lightbox-inner');
+	  let scale = 1;
 
-  function openLightbox(src, alt) {
-    scale = 1;
-    lbImg.style.transform = 'scale(1)';
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lb.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-	lbImg.style.width = '100%';
-  }
-
-  function closeLightbox() {
-    lb.style.display = 'none';
-    document.body.style.overflow = '';
-    lbImg.src = '';
-  }
-
-  // Attach click to all images EXCEPT photospheres and nav
-  document.querySelectorAll('img:not(#sidenav img):not(.apod-media)').forEach(img => {
-    if (img.closest('#sidenav') || img.closest('.photosphere-viewer')) return;
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', () => openLightbox(img.src, img.alt));
-  });
-
-  document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
-  document.getElementById('lightbox-inner').addEventListener('click', closeLightbox);
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  // Scroll to zoom
-	lbInner.addEventListener('wheel', e => {
-	  e.preventDefault();
-	  scale = Math.min(8, Math.max(1, scale - e.deltaY * 0.002));
-	  lbImg.style.width = (Math.max(window.innerWidth * 0.95, lbImg.naturalWidth) * scale) + 'px';
-	}, { passive: false });
-
-	let lastDist = 0;
-	lbInner.addEventListener('touchstart', e => {
-	  if (e.touches.length === 2) {
-		lastDist = Math.hypot(
-		  e.touches[0].clientX - e.touches[1].clientX,
-		  e.touches[0].clientY - e.touches[1].clientY
-		);
+	  function openLightbox(src, alt) {
+		scale = 1;
+		lbImg.style.transform = 'scale(1)';
+		lbImg.src = src;
+		lbImg.alt = alt || '';
+		lb.style.display = 'flex';
+		document.body.style.overflow = 'hidden';
+		lbImg.style.width = '100%';
 	  }
-	});
-	lbInner.addEventListener('touchmove', e => {
-	  if (e.touches.length === 2) {
-		e.preventDefault();
-		const dist = Math.hypot(
-		  e.touches[0].clientX - e.touches[1].clientX,
-		  e.touches[0].clientY - e.touches[1].clientY
-		);
-		scale = Math.min(8, Math.max(1, scale * (dist / lastDist)));
-		lbImg.style.width = (Math.max(window.innerWidth * 0.95, lbImg.naturalWidth) * scale) + 'px';
-		lastDist = dist;
+
+	  function closeLightbox() {
+		lb.style.display = 'none';
+		document.body.style.overflow = '';
+		lbImg.src = '';
 	  }
-	}, { passive: false });	
+
+	  // Attach click to all images EXCEPT photospheres and nav
+	  document.querySelectorAll('img:not(#sidenav img):not(.apod-media)').forEach(img => {
+		if (img.closest('#sidenav') || img.closest('.photosphere-viewer')) return;
+		img.style.cursor = 'zoom-in';
+		img.addEventListener('click', () => openLightbox(img.src, img.alt));
+	  });
+
+	  document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
+	  document.getElementById('lightbox-inner').addEventListener('click', closeLightbox);
+
+	  document.addEventListener('keydown', e => {
+		if (e.key === 'Escape') closeLightbox();
+	  });
+
+	  // Scroll to zoom
+		lbInner.addEventListener('wheel', e => {
+		  e.preventDefault();
+		  scale = Math.min(8, Math.max(1, scale - e.deltaY * 0.002));
+		  lbImg.style.width = (Math.max(window.innerWidth * 0.95, lbImg.naturalWidth) * scale) + 'px';
+		}, { passive: false });
+
+		let lastDist = 0;
+		lbInner.addEventListener('touchstart', e => {
+		  if (e.touches.length === 2) {
+			lastDist = Math.hypot(
+			  e.touches[0].clientX - e.touches[1].clientX,
+			  e.touches[0].clientY - e.touches[1].clientY
+			);
+		  }
+		});
+		lbInner.addEventListener('touchmove', e => {
+		  if (e.touches.length === 2) {
+			e.preventDefault();
+			const dist = Math.hypot(
+			  e.touches[0].clientX - e.touches[1].clientX,
+			  e.touches[0].clientY - e.touches[1].clientY
+			);
+			scale = Math.min(8, Math.max(1, scale * (dist / lastDist)));
+			lbImg.style.width = (Math.max(window.innerWidth * 0.95, lbImg.naturalWidth) * scale) + 'px';
+			lastDist = dist;
+		  }
+		}, { passive: false });	
+		})();
+	</script>
+	<script is:inline>
+	(function () {
+	  if (localStorage.getItem('no-analytics')) return;
+
+	  const viewId = crypto.randomUUID();
+	  const nav = performance.getEntriesByType('navigation')[0];
+
+	  fetch('/api/view', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		keepalive: true,
+		body: JSON.stringify({
+		  phase: 'view',
+		  view_id: viewId,
+		  path: location.pathname,
+		  page_title: document.title,
+		  screen_w: screen.width,
+		  screen_h: screen.height,
+		  viewport_w: innerWidth,
+		  viewport_h: innerHeight,
+		  load_ms: Math.round((nav && nav.duration) || performance.now())
+		})
+	  }).catch(() => {});
+
+	  const start = Date.now();
+	  let maxScroll = 0;
+	  addEventListener('scroll', function () {
+		const h = document.documentElement.scrollHeight - innerHeight;
+		if (h > 0) maxScroll = Math.max(maxScroll, Math.round((scrollY / h) * 100));
+	  }, { passive: true });
+
+	  let sent = false;
+	  function sendLeave() {
+		if (sent) return;
+		sent = true;
+		navigator.sendBeacon('/api/view', new Blob([JSON.stringify({
+		  phase: 'leave',
+		  view_id: viewId,
+		  duration_ms: Date.now() - start,
+		  max_scroll_pct: maxScroll
+		})], { type: 'application/json' }));
+	  }
+	  addEventListener('visibilitychange', function () {
+		if (document.visibilityState === 'hidden') sendLeave();
+	  });
+	  addEventListener('pagehide', sendLeave);
 	})();
-</script>
+	</script>
 </body>
 </html>
