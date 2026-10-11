@@ -14,7 +14,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       <input type="text" id="gb-name" placeholder="Your name / handle" maxlength="40" />
       <input type="text" id="gb-planet" placeholder="Your planet of origin" maxlength="40" />
       <textarea id="gb-msg" placeholder="Leave a message for the cosmos..." maxlength="500"></textarea>
-	  <input type="text" id="gb-honey" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="opacity:0;position:absolute;left:-999px;height:0;width:0;" />
+      <input type="text" id="gb-honey" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="opacity:0;position:absolute;left:-999px;height:0;width:0;" />
       <button class="btn" id="gb-submit">&#9654; Sign It</button>
       <div id="gb-status"></div>
     </div>
@@ -48,6 +48,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   #gb-status {
     font-size: 0.75rem;
     letter-spacing: 0.1em;
+  }
+  .gb-disclosure {
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: var(--dim);
   }
   :global(.entry-card) {
     background: var(--panel);
@@ -124,7 +129,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const { data, error, count } = await db
       .from('guestbook')
-      .select('*', { count: 'exact' })
+      .select('name, planet, message, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(from, to);
 
@@ -180,6 +185,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   });
 
   document.getElementById('gb-submit').addEventListener('click', async function() {
+    // Honeypot: any value here means a bot filled the hidden field. Bail silently.
+    if (document.getElementById('gb-honey').value) return;
+
     var name    = document.getElementById('gb-name').value.trim() || 'Anonymous';
     var planet  = document.getElementById('gb-planet').value.trim() || 'Earth';
     var message = document.getElementById('gb-msg').value.trim();
@@ -187,7 +195,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     if (!message) {
       status.style.color = 'var(--red)';
-	  if (document.getElementById('gb-honey').value) return;
       status.textContent = '>> Please write a message first.';
       return;
     }
@@ -195,35 +202,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     status.style.color = 'var(--dim)';
     status.textContent = '>> Transmitting...';
 
-let ipData = {};
-    try {
-      const ipRes = await fetch('https://ipapi.co/json/');
-      ipData = await ipRes.json();
-    } catch(e) {}
+    var row = { name: name, planet: planet, message: message };
 
-    const { error } = await db
-      .from('guestbook')
-      .insert([{
-        name: name,
-        planet: planet,
-        message: message,
-        user_agent: navigator.userAgent,
-        language: navigator.language,
-        screen: screen.width + 'x' + screen.height,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        platform: navigator.platform,
-        cpu: navigator.hardwareConcurrency || null,
-        memory: navigator.deviceMemory ? navigator.deviceMemory + 'GB' : null,
-        touch: navigator.maxTouchPoints || null,
-        color_depth: screen.colorDepth || null,
-        ip_address: ipData.ip || null,
-        city: ipData.city || null,
-        region: ipData.region || null,
-        country: ipData.country_name || null,
-        isp: ipData.org || null,
-        latitude: ipData.latitude || null,
-        longitude: ipData.longitude || null
-      }]);
+    const { error } = await db.from('guestbook').insert([row]);
 
     if (error) {
       status.style.color = 'var(--red)';
