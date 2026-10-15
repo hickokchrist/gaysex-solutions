@@ -455,6 +455,20 @@ const currentPath = Astro.url.pathname;
   display: block;
 }
 
+.triple-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.triple-grid .img-item img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  display: block;
+}
+
 .img-item img {
   width: auto;
   max-width: 100%;
