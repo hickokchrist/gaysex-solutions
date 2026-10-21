@@ -753,7 +753,9 @@ function toggleNav() {
 	</script>
 	<script is:inline>
 	(function () {
-	  if (localStorage.getItem('no-analytics')) return;
+		const PROD = ['gaysex.solutions', 'www.gaysex.solutions'];
+		if (!PROD.includes(location.hostname)) return;
+		if (localStorage.getItem('no-analytics')) return;
 
 	  const viewId = crypto.randomUUID();
 	  const nav = performance.getEntriesByType('navigation')[0];

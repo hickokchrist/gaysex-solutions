@@ -384,7 +384,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       console.error("Counter failed:", e);
     }
   }
-  // Initialize both
+   // ---- INIT ----
+  const PROD = ['gaysex.solutions', 'www.gaysex.solutions'];
   loadTodayAPOD();
-  loadAndIncrementCounter();
+  if (PROD.includes(location.hostname)) loadAndIncrementCounter();
 </script>
