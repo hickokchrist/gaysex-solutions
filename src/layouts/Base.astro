@@ -117,27 +117,45 @@ const currentPath = Astro.url.pathname;
       transition: all 0.3s;
     }
 
-#site-title {
-  font-size: 1.05rem;
-  letter-spacing: 0.18em;
-  color: var(--cyan);
-  text-shadow: 0 0 12px var(--cyan);
-  text-transform: uppercase;
-  flex: 1;
-  text-decoration: none !important;
- 
+	#site-title {
+	  font-size: 1.05rem;
+	  letter-spacing: 0.18em;
+	  color: var(--cyan);
+	  text-shadow: 0 0 12px var(--cyan);
+	  text-transform: uppercase;
+	  text-decoration: none !important;
 
-  min-width: 0;
-}
+	  /* --- Change these properties --- */
+	  display: inline-flex;  /* Shrink-wraps the container to the content */
+	  width: auto;           /* Removes flex: 1 stretching */
+	  flex: 0 1 auto;        /* Prevents it from taking remaining space */
+	  min-width: 0;
+	}
     #site-title span { color: var(--gold); }
 
-    .live-dot {
+	.live-dot {
       width: 9px; height: 9px;
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 8px var(--green);
       animation: pulse-dot 1.6s ease-in-out infinite;
       flex-shrink: 0;
+
+      /* --- Use this approach instead --- */
+      position: relative;
+      border: none;
+      cursor: pointer;
+      background-color: var(--green);
+	  margin-left:auto;
+    }
+
+    .live-dot::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      bottom: -12px;
+      left: -12px;
     }
     @keyframes pulse-dot {
       0%,100% { opacity: 1; transform: scale(1); }
