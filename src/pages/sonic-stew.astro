@@ -1,46 +1,168 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const base = 'https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-';
+
+// Newest first. `slug` is the Mixcloud URL tail (keep any percent-encoding as-is).
+const episodes = [
+  { num: 13, title: 'Ghastly Ghoulash',  date: 'October 19, 2026',   slug: 'october-19-2026-ghastly-ghoulash' },
+  { num: 12, title: 'Juuni Suupu',       date: 'October 5, 2026',    slug: 'october-5-2026-juuni-suupu' },
+  { num: 11, title: 'Once de Sopa',      date: 'September 21, 2026', slug: 'september-21-2026-once-de-sopa' },
+  { num: 10, title: 'Soup Ten',          date: 'September 7, 2026',  slug: 'september-7-2026-soup-ten' },
+  { num: 9,  title: 'Neuf Seupe',        date: 'August 24, 2026',    slug: 'august-24-2026-neuf-seupe' },
+  { num: 8,  title: 'Ocho Gazpacho',     date: 'July 27, 2026',      slug: 'july-27-2026-ocho-gazpacho' },
+  { num: 7,  title: 'Soup Seven',        date: 'July 14, 2026',      slug: 'july-14-2026-soup-seven' },
+  { num: 6,  title: 'Sextuple Simmer',   date: 'June 15, 2026',      slug: 'june-15-2026-sextuple-simmer' },
+  { num: 5,  title: 'Five Alarm Chili',  date: 'June 1, 2026',       slug: 'june-1-2026-5ive-alarm-chili' },
+  { num: 4,  title: 'Stew Four You',     date: 'May 18, 2026',       slug: 'may-18-2026-stew-four-you' },
+  { num: 3,  title: 'Triple Consommé',   date: 'May 4, 2026',        slug: 'may-4-2026-triple-consomm%C3%A9' },
+  { num: 2,  title: 'Stew Two',          date: 'April 20, 2026',     slug: 'april-20-2026-stew-two' },
+  { num: 1,  title: 'Debut Stew',        date: 'April 6, 2026',      slug: 'april-06-2026-debut-stew' },
+].map((ep) => {
+  const url = `${base}${ep.slug}/`;
+  const feed = encodeURIComponent(new URL(url).pathname);
+  return {
+    ...ep,
+    url,
+    embed: `https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=${feed}`,
+  };
+});
 ---
 <Base title="Sonic-Stew">
 
-  <div class="page-heading">>> Sonic Stew with Hole McJail</div>
+  <header class="show-header">
+    <div class="page-heading">&gt;&gt; Sonic Stew with Hole McJail</div>
+    
+  </header>
 
   <div class="info-block">
-<p>Hole McJail brings an eclectic international mix spanning dance pop to reggaeton bangers to make you want to shake your booty. Sonic Stew is a melting pot of music in multiple languages; Hole's goal is to introduce you to the sickest beats you'd never heard before, exploring sonic styles around the world.
-</p>
-</div>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-september-21-2026-once-de-sopa" target="_blank">Sonic Stew with Hole McJail - September 21, 2026 - Once de Sopa</a> (September 21, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-september-21-2026-once-de-sopa%2F&utm_medium=share&utm_source=embed&utm_content=show&utm_term=VXNlcjo1NTA2ODI4Mw%3D%3D" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-september-7-2026-soup-ten" target="_blank">Episode 10: Soup Ten</a> (September 7, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-september-7-2026-soup-ten%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-august-24-2026-neuf-seupe/" target="_blank">Episode 9: Neuf Seupe</a> (August 24, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-august-24-2026-neuf-seupe%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-july-27-2026-ocho-gazpacho/" target="_blank">Episode 8: Ocho Gazpacho</a> (July 27, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-july-27-2026-ocho-gazpacho%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-july-14-2026-soup-seven/" target="_blank">Episode 7: Soup Seven</a> (July 14, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-july-14-2026-soup-seven%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-june-15-2026-sextuple-simmer/" target="_blank">Episode 6: Sextuple Simmer</a> (June 15, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-june-15-2026-sextuple-simmer%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-june-1-2026-5ive-alarm-chili/" target="_blank">Episode 5: Five Alarm Chili</a> (June 1, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-june-1-2026-5ive-alarm-chili%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-may-18-2026-stew-four-you/" target="_blank">Episode 4: Stew Four You</a> (May 18, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-may-18-2026-stew-four-you%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-may-4-2026-triple-consomm%C3%A9/" target="_blank">Episode 3: Triple Consommé</a> (May 4, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-may-4-2026-triple-consomm%25C3%25A9%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-april-20-2026-stew-two/" target="_blank">Episode 2: Stew Two</a> (April 20, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-april-20-2026-stew-two%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
-<h2><a href="https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-april-06-2026-debut-stew/" target="_blank">Episode 1: Debut Stew</a> (April 6, 2026)</h2>
-<iframe width="100%" height="120" src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&feed=%2FHole-McJail%2Fsonic-stew-with-hole-mcjail-april-06-2026-debut-stew%2F" frameborder="0" allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;" ></iframe>
-<br>
+    <p>
+      Hole McJail brings an eclectic international mix spanning dance pop to reggaeton bangers to make you want to shake your booty. Sonic Stew is a melting pot of music in multiple languages; Hole's goal is to introduce you to the sickest beats you'd never heard before, exploring sonic styles around the world.
+    </p>
+  </div>
+
+  <section class="episodes" aria-label="Episodes">
+    <h2 class="section-title">Episodes</h2>
+    <ul class="episode-list">
+      {episodes.map((ep, i) => (
+        <li class="episode">
+          <div class="episode-head">
+            <span class="episode-num">Ep. {ep.num}</span>
+            {i === 0 && <span class="badge">Latest</span>}
+          </div>
+          <h3 class="episode-title">
+            <a href={ep.url} target="_blank" rel="noopener noreferrer">{ep.title}</a>
+          </h3>
+          <time class="episode-date">{ep.date}</time>
+          <iframe
+            title={`Sonic Stew Episode ${ep.num}: ${ep.title}`}
+            width="100%"
+            height="120"
+            src={ep.embed}
+            frameborder="0"
+            loading="lazy"
+            allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;"
+          ></iframe>
+        </li>
+      ))}
+    </ul>
+  </section>
+
 </Base>
+
+<style>
+  .show-header { margin-bottom: 0.5rem; }
+  .tagline {
+    margin: 0.25rem 0 0;
+    opacity: 0.7;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .info-block {
+    margin: 1.25rem 0 2rem;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--accent, #e4572e);
+    background: rgba(128, 128, 128, 0.08);
+    border-radius: 0 8px 8px 0;
+    line-height: 1.6;
+  }
+  .info-block p { margin: 0; }
+
+  .section-title {
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+  }
+
+  .episode-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .episode {
+    padding: 1rem 1.25rem 1.25rem;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.05);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .episode:hover,
+  .episode:focus-within {
+    border-color: var(--accent, #e4572e);
+    transform: translateY(-2px);
+  }
+
+  .episode-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .episode-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--accent, #e4572e);
+    color: #fff;
+  }
+
+  .episode-title {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+  .episode-title a { text-decoration: none; }
+  .episode-title a:hover,
+  .episode-title a:focus-visible { text-decoration: underline; }
+
+  .episode-date {
+    display: block;
+    margin: 0.15rem 0 0.75rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  iframe {
+    display: block;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  @media (min-width: 900px) {
+    .episode-list { grid-template-columns: 1fr 1fr; }
+  }
+</style>
