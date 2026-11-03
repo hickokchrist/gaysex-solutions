@@ -5,19 +5,20 @@ const base = 'https://www.mixcloud.com/Hole-McJail/sonic-stew-with-hole-mcjail-'
 
 // Newest first. `slug` is the Mixcloud URL tail (keep any percent-encoding as-is).
 const episodes = [
-  { num: 13, title: 'Ghastly Ghoulash',  date: 'October 19, 2026',   slug: 'october-19-2026-ghastly-ghoulash' },
-  { num: 12, title: 'Juuni Suupu',       date: 'October 5, 2026',    slug: 'october-5-2026-juuni-suupu' },
-  { num: 11, title: 'Once de Sopa',      date: 'September 21, 2026', slug: 'september-21-2026-once-de-sopa' },
-  { num: 10, title: 'Soup Ten',          date: 'September 7, 2026',  slug: 'september-7-2026-soup-ten' },
-  { num: 9,  title: 'Neuf Seupe',        date: 'August 24, 2026',    slug: 'august-24-2026-neuf-seupe' },
-  { num: 8,  title: 'Ocho Gazpacho',     date: 'July 27, 2026',      slug: 'july-27-2026-ocho-gazpacho' },
-  { num: 7,  title: 'Soup Seven',        date: 'July 14, 2026',      slug: 'july-14-2026-soup-seven' },
-  { num: 6,  title: 'Sextuple Simmer',   date: 'June 15, 2026',      slug: 'june-15-2026-sextuple-simmer' },
-  { num: 5,  title: 'Five Alarm Chili',  date: 'June 1, 2026',       slug: 'june-1-2026-5ive-alarm-chili' },
-  { num: 4,  title: 'Stew Four You',     date: 'May 18, 2026',       slug: 'may-18-2026-stew-four-you' },
-  { num: 3,  title: 'Triple Consommé',   date: 'May 4, 2026',        slug: 'may-4-2026-triple-consomm%C3%A9' },
-  { num: 2,  title: 'Stew Two',          date: 'April 20, 2026',     slug: 'april-20-2026-stew-two' },
-  { num: 1,  title: 'Debut Stew',        date: 'April 6, 2026',      slug: 'april-06-2026-debut-stew' },
+  { num: 14, title: 'Portland Particular',date: 'November 2, 2026',   slug: 'november-2-2026-portland-particular' },
+  { num: 13, title: 'Ghastly Ghoulash',   date: 'October 19, 2026',   slug: 'october-19-2026-ghastly-ghoulash' },
+  { num: 12, title: 'Juuni Suupu',        date: 'October 5, 2026',    slug: 'october-5-2026-juuni-suupu' },
+  { num: 11, title: 'Once de Sopa',       date: 'September 21, 2026', slug: 'september-21-2026-once-de-sopa' },
+  { num: 10, title: 'Soup Ten',           date: 'September 7, 2026',  slug: 'september-7-2026-soup-ten' },
+  { num: 9,  title: 'Neuf Seupe',         date: 'August 24, 2026',    slug: 'august-24-2026-neuf-seupe' },
+  { num: 8,  title: 'Ocho Gazpacho',      date: 'July 27, 2026',      slug: 'july-27-2026-ocho-gazpacho' },
+  { num: 7,  title: 'Soup Seven',         date: 'July 14, 2026',      slug: 'july-14-2026-soup-seven' },
+  { num: 6,  title: 'Sextuple Simmer',    date: 'June 15, 2026',      slug: 'june-15-2026-sextuple-simmer' },
+  { num: 5,  title: 'Five Alarm Chili',   date: 'June 1, 2026',       slug: 'june-1-2026-5ive-alarm-chili' },
+  { num: 4,  title: 'Stew Four You',      date: 'May 18, 2026',       slug: 'may-18-2026-stew-four-you' },
+  { num: 3,  title: 'Triple Consommé',    date: 'May 4, 2026',        slug: 'may-4-2026-triple-consomm%C3%A9' },
+  { num: 2,  title: 'Stew Two',           date: 'April 20, 2026',     slug: 'april-20-2026-stew-two' },
+  { num: 1,  title: 'Debut Stew',         date: 'April 6, 2026',      slug: 'april-06-2026-debut-stew' },
 ].map((ep) => {
   const url = `${base}${ep.slug}/`;
   const feed = encodeURIComponent(new URL(url).pathname);

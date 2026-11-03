@@ -11,7 +11,14 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
 <Base title="Blog // Gaysex Solutions" description="Blog of minor events and musings.">
 
   <div class="page-heading">>> Blog</div>
-
+<p>Here be the ramblings of my life that I'll retreat to once I'm an elder being abused by the illiterate Gen-Z/Alpha caretakers charged with my well-being. When the dementia finally takes hold, these posts and pics will be all I have left!</p>
+Special tags are as follows:
+<ul>
+  <li><button class="tag-btn" data-tag="spectral analysis">SPECTRAL ANALYSIS</button> for concert reviews</li>
+  <li><button class="tag-btn" data-tag="time domain">TIME DOMAIN</button> for live-blog posts written, well, live.</li>
+  <li><button class="tag-btn" data-tag="retrograde perspective">RETROGRADE PERSPECTIVE</button> for posts discussing events which happened in the past.</li>
+</ul>
+<p><button class="tag-btn tag-clear">✕ clear filters</button></p>
   <div class="posts-grid" id="posts-grid">
     {posts.map(post => (
       <a
@@ -280,9 +287,9 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
     });
   }
 
-  // Tag filtering
-  var tagBtns = document.querySelectorAll('.tag-btn:not(#tag-clear)');
-  var clearBtn = document.getElementById('tag-clear');
+// Tag filtering
+  var tagBtns = document.querySelectorAll('.tag-btn:not(.tag-clear)');
+  var clearBtns = document.querySelectorAll('.tag-clear');
 
   if (tagBtns.length) {
     tagBtns.forEach(function(btn) {
@@ -299,10 +306,12 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
       });
     });
 
-    clearBtn.addEventListener('click', function() {
-      activeTags.clear();
-      tagBtns.forEach(function(b) { b.classList.remove('active'); });
-      renderPage(1);
+    clearBtns.forEach(function(clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        activeTags.clear();
+        tagBtns.forEach(function(b) { b.classList.remove('active'); });
+        renderPage(1);
+      });
     });
   }
 
