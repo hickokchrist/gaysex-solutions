@@ -133,18 +133,6 @@ const { Content } = await album.render();
     margin: 16px auto;
     border: 1px solid var(--panel-border);
   }
-  .post-body :global(.img-grid) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 16px 0;
-	}
-  .post-body :global(.img-grid img) {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    margin: 0;
-  }
   .post-body :global(.img-pair) {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -173,11 +161,7 @@ const { Content } = await album.render();
     letter-spacing: 0.1em;
     margin-bottom: 8px;
   }
-@media (max-width: 900px) {
-    .post-body :global(.img-grid) {
-      grid-template-columns: 1fr;
-    }
-  }
+
   .post-tags-block {
   display: flex;
   flex-wrap: wrap;

@@ -629,6 +629,43 @@ blockquote {
   height: auto;
   margin: 0;
 }
+
+.tiktok-float-right {
+  float: right;
+  width: min(400px, 100%);
+  margin: 0 0 16px 20px;
+}
+
+.tiktok-float-left {
+  float: left;
+  width: min(400px, 100%);
+  margin: 0 20px 16px 0;
+}
+
+.tiktok {
+  width: min(400px, 100%);
+  margin: 16px auto;
+  clear: both;
+}
+
+.tiktok-float-right iframe,
+.tiktok-float-left iframe,
+.tiktok iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 325 / 578;
+  border: 0;
+}
+
+@media (max-width: 700px) {
+  .tiktok-float-right,
+  .tiktok-float-left {
+    float: none;
+    width: 100%;
+    margin: 16px auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -862,5 +899,14 @@ function toggleNav() {
 	  addEventListener('pagehide', sendLeave);
 	})();
 	</script>
+	<script is:inline>
+  
+  if (document.querySelector('.tiktok-embed')) {
+    const script = document.createElement('script');
+    script.src = 'https://www.tiktok.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+</script>
 </body>
 </html>
