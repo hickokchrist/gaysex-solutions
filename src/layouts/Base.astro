@@ -328,7 +328,7 @@ const currentPath = Astro.url.pathname;
 	  .home-title .title-decor,
 	  .home-title .title-sub { display: none; }
     }
-	}
+
     #nav-overlay {
       display: none;
       position: fixed;
@@ -449,6 +449,9 @@ const currentPath = Astro.url.pathname;
   margin: 0 20px 16px 0;
   max-width: 65%;
 }
+.img-item.float-col {
+  width: clamp(200px, 50%, 600px);
+}
 .float-wrap {
   overflow: hidden;
   margin-bottom: 16px;
@@ -492,7 +495,7 @@ const currentPath = Astro.url.pathname;
   max-width: 100%;
   max-height: 700px;
   display: block;
-  margin: 0 auto;
+  margin: 0;
 }
 
 @media (max-width: 700px) {
@@ -504,6 +507,18 @@ const currentPath = Astro.url.pathname;
     float: none;
     max-width: 100%;
     margin: 0 0 16px 0;
+  }
+  .img-item.float-col {
+    width: 100%;
+  }
+  .img-grid.stack {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .img-grid.stack .img-item {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
   }
   .img-item img {
     width: 100%;
@@ -585,6 +600,34 @@ blockquote {
   object-fit: contain;
   border: 1px solid var(--panel-border);
   transition: width 0.1s;
+}
+.img-grid.stack {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 0;
+}
+.img-grid.stack .img-item {
+  flex: none;
+  max-width: 100%;
+  margin: 0;
+}
+.img-grid.stack .img-item img {
+  width: 100%;
+  margin: 0;
+}
+
+/* Big image: fills the space left of the floated column */
+.img-item.big-fill {
+  overflow: hidden;
+  max-width: none;
+  margin: 0 0 16px 0;
+}
+.img-item.big-fill img {
+  width: 100%;
+  max-height: none;
+  height: auto;
+  margin: 0;
 }
 </style>
 </head>
