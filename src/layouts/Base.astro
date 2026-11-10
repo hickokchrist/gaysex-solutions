@@ -466,13 +466,15 @@ const currentPath = Astro.url.pathname;
 
 .img-grid .img-item {
   flex: 1 1 calc(50% - 8px);
-  max-width: calc(50% - 8px);
+  min-width: 220px;
+  max-width: 100%;
 }
 
 .img-grid .img-item img {
   width: 100%;
   height: auto;
   max-height: none;
+  min-width: auto;
   display: block;
 }
 
@@ -657,12 +659,11 @@ blockquote {
   aspect-ratio: 325 / 578;
   border: 0;
 }
-
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .tiktok-float-right,
   .tiktok-float-left {
     float: none;
-    width: 100%;
+    width: min(400px, 100%);
     margin: 16px auto;
   }
 }
